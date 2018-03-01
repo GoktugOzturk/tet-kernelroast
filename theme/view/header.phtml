@@ -1,0 +1,101 @@
+<?
+/**
+ * @var string           $themeDir
+ * @var category_model[] $catalogs
+ * @var category_model   $category
+ */
+?>
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="header-container">
+                    <div class="logo"><h1><a></a></h1></div>
+                    <div class="header-content">
+                        <div class="header-search">
+                            <form id="search" action="/search">
+                                <label>
+                                    <input type="search" name="q">
+                                </label>
+                                <button type="submit"></button>
+                            </form>
+                        </div>
+                        <a href="#" class="need-help">Need help?</a>
+                        <div class="user-panel">
+                            <div class="my-cart">
+                                <a href="/cart" class="">My cart (<?= session::getCartProductCount() ?>)</a>
+                                <div class="mini-basket">
+                                    <div class="mini-basket-title">My Cart</div>
+                                    <table>
+                                        <tr>
+                                            <td class="product-thumbnail"><img src="https://placeimg.com/70/70/any"></td>
+                                            <td class="product-info">
+                                                Kernel & Roast Bagel, Asiago
+                                                Cheese, 6 pk
+                                                <div class="product-meta">
+                                                    <div class="product-quantity"><input type="text" value="2"></div>
+                                                    <div class="product-price">£3.75</div>
+                                                </div>
+                                            </td>
+                                            <td class="product-remove"><a href="#" class="remove"></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="product-thumbnail"><img src="https://placeimg.com/70/70/any"></td>
+                                            <td class="product-info">
+                                                Kernel & Roast Bagel, Asiago
+                                                Cheese, 6 pk
+                                                <div class="product-meta">
+                                                    <div class="product-quantity"><input type="text" value="2"></div>
+                                                    <div class="product-price">£3.75</div>
+                                                </div>
+                                            </td>
+                                            <td class="product-remove"><a href="#" class="remove"></a></td>
+                                        </tr>
+                                        <tr class="collaterals">
+                                            <td>TOTAL</td>
+                                            <td colspan="2">£11.75</td>
+                                        </tr>
+                                    </table>
+                                    <div class="mini-basket-footer">
+                                        <a href="#" class="btn btn-double-bordered btn-gray-bordered btn-font-medium half-bottom">VIEW SHOPPING BAG</a>
+                                        <a href="#" class="btn btn-red btn-font-bold">CHECKOUT</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <? if (session::isMember()) { ?>
+                                <div class="my-account">
+                                    <a href="#" class="">My Account</a>
+                                    <div class="mini-account">
+                                        <div class="mini-account-header">
+                                            <div class="mini-account-photo"></div>
+                                            <div class="mini-account-info">
+                                                <div class="mini-account-name"><?= mb_strtoupper(session::get("fullName")) ?></div>
+                                                <div class="mini-account-email">chris@gmail.com</div>
+                                                <div class="mini-account-edit"><a href="/account/details">Edit Profile</a></div>
+                                            </div>
+                                        </div>
+                                        <div class="mini-account-nav">
+                                            <ul>
+                                                <li class="menu-item-orders"><a href="/my-orders">Orders</a></li>
+                                                <li class="menu-item-notifications"><a href="#">Notifications (2 new)</a></li>
+                                                <li class="menu-item-help"><a href="/support/faq">Help</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="mini-account-logout">
+                                            <a href="/member/logout">Sign Out</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <? } else { ?>
+                                <div class="login">
+                                    <a class="login-required" href="javascript:">Login</a>
+                                </div>
+                            <? } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?= menu::generateSiteHeaderMenu() ?>
+</header>

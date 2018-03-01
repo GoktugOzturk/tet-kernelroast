@@ -1,0 +1,236 @@
+.filter-col {
+    padding: 15px;
+    background: #FFF;
+}
+
+.category-page-title {
+    margin-bottom: 5px;
+    color: #484848;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.product-count {
+    color: #919191;
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.filter-title {
+    margin-top: 25px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.filter-content ul {
+    padding: 0;
+}
+
+.filter-content ul li {
+    list-style-type: none;
+}
+
+.filter-content ul li a {
+    color: #000;
+    padding: 5px 0 10px 0;
+    display: block;
+    font-size: 13px;
+}
+
+.filter-content ul li a:hover {
+    text-decoration: none;
+    color: #919191;
+}
+
+.filter-content ul li a span {
+    color: #919191;
+}
+
+.filter-btn-show {
+    text-decoration: none;
+    margin-top: 10px;
+    padding: 5px 20px;
+    background-color: #EEE;
+    color: #484848;
+    font-size: 13px;
+    line-height: 24px;
+}
+
+.fix-height-container-wb {
+    max-height: 200px;
+    overflow: hidden;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.filter-content ul.fix-height {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.filter-content ul.fix-height::-webkit-scrollbar {
+    width: 12px;
+    padding: 0;
+    background-color: #FFF;
+}
+
+.filter-content ul.fix-height::-webkit-scrollbar-thumb {
+    width: 16px;
+    border-radius: 10px;
+    background-color: #CCC;
+}
+
+.filter-content ul.fix-height::-webkit-scrollbar-track {
+    width: 16px;
+    border-radius: 10px;
+    background-color: #EEE;
+}
+
+.filter-content ul.fix-height::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+.filter-content ul.fix-height::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+.product-filter {
+    background: #3C3C3C;
+    padding: 15px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    margin-bottom: 30px;
+}
+
+.sprite-filter {
+    width: 25px;
+    height: 25px;
+    margin-bottom: -7px;
+    display: inline-block;
+}
+
+.sprite-filter.sortShowcase {
+    background-position: -650px 0;
+}
+
+.sprite-filter.sortNew {
+    background-position: -650px 0;
+}
+
+.sprite-filter.sortPopular {
+    background-position: -675px 0;
+}
+
+.sprite-filter.sortBestSeller {
+    background-position: -700px 0;
+}
+
+.sprite-filter.sortPriceAsc {
+    background-position: -725px 0;
+}
+
+.sprite-filter.sortPriceDesc {
+    background-position: -750px 0;
+}
+
+.nav.product-filter li {
+    display: table-cell;
+    width: 1%;
+    text-align: center;
+}
+
+.nav.product-filter li a {
+    color: #FFF;
+    font-size: 14px;
+    padding: 0;
+    border-right: 1px solid #9E9E9E;
+}
+
+.nav.product-filter li:last-child a {
+    border-right: 0;
+}
+
+.nav.product-filter a:hover {
+    background: none;
+}
+
+#filtreler-btn {
+    display: none;
+}
+
+.selected-filters {
+    padding: 15px;
+    background: #E2E2E2;
+    border-radius: 5px 5px 0 0;
+}
+
+.s-filter-brand {
+    background: #FFF;
+    color: #3C3C3C;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.s-filter-brand span {
+    color: #8A8A8A;
+    display: block;
+    font-size: 13px;
+}
+
+.s-remove-filter {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    text-align: center;
+    background: #CCC;
+    color: #FFF !important;
+    margin-left: 10px;
+    border-radius: 100%;
+    text-decoration: none !important;
+    font-size: 11px;
+    line-height: 18px;
+}
+
+#items-container > .row > div:first-child {
+    border-radius: 7px 7px 0 0;
+}
+
+#items-container > .row > div:first-child.items-wrapper {
+    border-radius: 7px;
+}
+
+@media only screen and (max-width: 992px) {
+    #filtreler-btn {
+        display: block;
+        margin-bottom: 15px;
+        background: #EE6A05 !important;
+        border-radius: 7px;
+        padding: 15px;
+        text-align: center;
+        color: #FFF;
+        text-decoration: none !important;
+    }
+
+    #filter-wrapper {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .nav.product-filter li a {
+        font-size: 0;
+    }
+
+    .sprite-filter {
+        margin-bottom: 0;
+    }
+}

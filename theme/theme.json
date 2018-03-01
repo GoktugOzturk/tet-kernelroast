@@ -1,0 +1,145 @@
+{
+  "theme_tag": "kernelroast",
+  "theme_name": "Kernel & Roast",
+  "theme_version": "1.0.0",
+  "compatible_with": "1.0.1",
+  "config": {
+  "skeletonView": {
+    "default": "global",
+    "home": "home",
+    "cart": "checkout",
+    "checkout": "checkout"
+  },
+  "advertisementZones": {
+    "NavigationBanner": {
+      "description": "Navigasyon menüsünde menü butonu altında görünen banner",
+      "group": "Home",
+      "type": "Banner",
+      "width": 360,
+      "height": 360,
+      "limit": 1,
+      "sort_by": "Order",
+      "global": 1
+    },
+	   "NavigationPills": {
+        "description": "Navigasyon menüsünün yanında görünen bağlantılar",
+        "group": "Global",
+        "type": "Link",
+        "limit": 4,
+        "sort_by": "Order",
+        "global": 1
+      },
+    "HomePageSlider": {
+      "description": "Anasayfa Kayan Slider",
+      "group": "Home",
+      "type": "Banner",
+      "width": 727,
+      "height": 540,
+      "limit": 10,
+      "sort_by": "Order"
+    },
+    "HomePageRightRectangle": {
+      "description": "Anasayfada slider yanındaki dikdörtgen bannerlar",
+      "group": "Home",
+      "type": "Banner",
+      "width": 353,
+      "height": 260,
+      "limit": 2,
+      "sort_by": "Order"
+    },
+    "HomePageSecondBanner": {
+      "description": "Anasayfada slider bölümünün altında görünen banner",
+      "group": "Home",
+      "type": "Banner",
+      "width": 1100,
+      "limit": 1,
+      "sort_by": "Order"
+    },
+    "CategoryProductTop": {
+      "description": "Kategori sayfalarında ürün listesinin üzerinde görünen banner",
+      "group": "Category",
+      "type": "Banner",
+      "width": 820,
+      "limit": 1,
+      "sort_by": "Order"
+    },
+    "Cart": {
+      "description": "Sepet sayfasında görünen banner",
+      "group": "Cart",
+      "type": "Banner",
+      "width": 1140,
+      "limit": 1,
+      "sort_by": "Order"
+    }
+  },
+  "blockZones": {
+    "footer": {
+      "page": "All",
+      "title": "Footer Alanı",
+      "description": "Bu alan site genelinde tüm sayfaların altında görünür"
+    },
+    "homePage": {
+      "page": "Home",
+      "title": "Ana Sayfa",
+      "description": "Bu alan anasayfa tasarımını özelleştirmenizi sağlar"
+    },
+    "productInfo": {
+      "page": "Product",
+      "title": "Ürün Detay Sayfası Ürün Bilgisinin Altı",
+      "description": "Ürün detay sayfalarında fotoğrafın yanında, ürünü sepete ekle bölümünün hemen altında görünür"
+    },
+    "productUnder": {
+      "page": "Product",
+      "title": "Ürün Detay Sayfası Footer Öncesi",
+      "description": "Ürün detay sayfalarında ürün açıklamalarının altındaki alanda görünecek öğelerin özelleştirilmesini sağlar"
+    },
+    "categoryTop": {
+      "page": "Category",
+      "title": "Kategori Sayfası Navigasyon Altı",
+      "description": "Kategori sayfalarında navigasyon altına eklenecek banner, açıklama gibi öğelerin özelleştirilmesini sağlar"
+    },
+    "CategoryOverProduct": {
+      "page": "Category",
+      "title": "Kategori Sayfası Ürün Listesi Üstü",
+      "description": "Kategori sayfalarında ürün listesinin ve filtrelerin üzerindeki alan"
+    },
+    "categoryUnder": {
+      "page": "Category",
+      "title": "Kategori Sayfası Ürün Listesinin Altı",
+      "description": "Kategori sayfalarında ilgili kategorideki ürünlerden sonra gösterilir"
+    }
+  },
+  "productPhoto": {
+    "ratio": 1,
+    "width": {
+      "thumb": 100,
+      "widget": 260,
+      "catalog": 260,
+      "normal": 580,
+      "mail": 300
+    }
+  },
+  "logos": {
+    "logo": {
+      "name": "Genel Site Logosu",
+      "width": 186,
+      "height": 58
+    },
+    "logo2x": {
+      "name": "Genel Site Logosu (2x)",
+      "width": 372,
+      "height": 116
+    },
+    "fixedNav": {
+      "name": "Sabit Navigasyonda Görünen Logo",
+      "width": 112,
+      "height": 35
+    },
+    "fixedNav2x": {
+      "name": "Sabit Navigasyonda Görünen Logo (2x)",
+      "width": 224,
+      "height": 70
+    }
+  }
+}
+}

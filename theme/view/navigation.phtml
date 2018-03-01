@@ -1,0 +1,55 @@
+<?
+/**
+ * @var category_model[] $catalogs
+ * @var category_model   $category
+ */
+?>
+<div class="navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <ul>
+                    <li class="menu-trigger">
+                        <a href="#" class="">MENU</a>
+                        <div class="nav-menu">
+                            <ul>
+                                <li><a href="/collection/new-arrivals">New Arrivals <span>(34)</span></a></li>
+                                <li><a href="/collection/featured-products">Featured Products <span>(18)</span></a></li>
+                                <? if (count($catalogs)) {
+                                    $i = 0;
+                                    foreach ($catalogs as $catalog) {
+                                        if (++$i % 12 == 0) {
+                                            echo '</ul><ul>';
+                                        }
+                                        ?>
+                                        <li>
+                                            <a href="<?= $catalog['link'] ?>"><?= $catalog['name'] ?> <span>(234)</span></a>
+                                            <? if (isset($childCategories[$catalog['id']]) && count($childCategories[$catalog['id']])) { ?>
+                                                <ul>
+                                                    <? foreach ($childCategories[$catalog['id']] as $category) { ?>
+                                                        <li><a href="<?= $category['link'] ?>"><?= $category['name'] ?> <span>(43)</span></a></li>
+                                                    <? } ?>
+                                                </ul>
+                                            <? } ?>
+                                        </li>
+                                        <?
+                                    }
+                                }
+                                ?>
+                                <li class="extra-menu-item">
+                                    <a href="#" class="my-account">My Account</a>
+                                    <a href="#" class="stores">Stores</a>
+                                </li>
+                            </ul>
+                            <div class="menu-promotional-area"><?= \TeknoETicaret\Advertisement\Zone::renderGlobal('NavigationBanner') ?></div>
+                        </div>
+                    </li>
+                    <?= \TeknoETicaret\Advertisement\Zone::renderGlobal('NavigationPills') ?>
+                    <li class=""><a href="#">PRODUCTS</a></li>
+                    <li class=""><a href="#">STORES</a></li>
+                    <li class=""><a href="#">BLOG</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

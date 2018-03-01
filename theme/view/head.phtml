@@ -1,0 +1,28 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="cache-control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="pragma" content="no-cache">
+    <meta name="expires" content="0">
+    <?= view::get_header_tags() ?>
+    <title><?= view::get_title() ?></title>
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">-->
+    <!--Stylesheets-->
+    <link rel="dns-prefetch" href="//<?= app::getUrl(app::APP_TAG_MEDIA, false) ?>/">
+    <link rel="shortcut icon" href="/logo/favicon.png" type="image/png"/>
+    <link rel="stylesheet" type="text/css" href="/theme/kernelroast/css/styles.css">
+    <!--Js-->
+    <?= view::load_scripts('jQuery') ?>
+    <script src="/theme/kernelroast/js/ui/jquery-ui.min.js"></script>
+    <script src="/theme/kernelroast/js/ui/jquery.ui.touch-punch.min.js"></script>
+    <script src="/theme/kernelroast/js/modernizr.js"></script>
+    <script src="/theme/kernelroast/js/mobile-detect.min.js"></script>
+    <script src="/theme/kernelroast/js/jquery.bxslider.js"></script>
+    <script src="/theme/kernelroast/js/jquery.customSelect.min.js"></script>
+    <script src="/theme/kernelroast/js/fancybox/jquery.fancybox.pack.js"></script>
+    <script src="/theme/kernelroast/js/jquery.mask.min.js"></script>
+    <script src="/theme/kernelroast//maps.googleapis.com/maps/api/js?key=AIzaSyB422xr9zC8rXm0eupii1hVsTswCq0eAd4&callback="></script>
+    <script src="/theme/kernelroast/js/functions.js"></script>
+    <script src="/theme/kernelroast/js/common.js"></script>
+    <?= view::load_inline_scripts() ?>
+</head>

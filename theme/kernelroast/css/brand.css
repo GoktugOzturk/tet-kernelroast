@@ -1,0 +1,116 @@
+@charset "UTF-8";
+
+.brandCatTitle {
+    font-weight: 300;
+    font-size: 25px;
+}
+
+.brandCats {
+    border-bottom: 1px solid #DDD;
+    margin-top: 10px;
+}
+
+.onCatName {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.brandCats li {
+    list-style: none;
+    margin-left: 10px;
+    line-height: 25px;
+    font-weight: 300;
+}
+
+.brandCats li {
+    list-style: none;
+    margin-left: 10px;
+    line-height: 25px;
+    font-weight: 300;
+}
+
+.brandTitle h1 {
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 45px;
+    margin-right: 10px;
+}
+
+.scrollbar {
+    max-height: 200px;
+    overflow: hidden;
+    border-bottom: none !important;
+}
+
+/* Markalar Listesi */
+.brandWord li {
+    float: left;
+    list-style: none;
+    margin: 0 10px 0 11px;
+}
+
+.brandWord li a {
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.brandWord .active {
+    color: #F60;
+}
+
+.brandBigWord {
+    font-size: 90px;
+    font-weight: 300;
+    text-align: right;
+}
+
+.brandShortList {
+    border-top: 1px dashed #E1E1E1;
+    margin-top: 20px;
+}
+
+.brandShortList:last-child {
+    border-bottom: 1px dashed #E1E1E1;
+}
+
+.brandShortList .brandNames {
+    border-left: 1px solid #E1E1E1;
+    padding: 10px 0 0 20px;
+    min-height: 130px;
+}
+
+.brandFullList {
+    border-top: 1px dashed #E1E1E1;
+    border-bottom: 1px dashed #E1E1E1;
+    margin-top: 20px;
+}
+
+.brandFullList .brandNames {
+    padding: 10px 10px 0;
+}
+
+.brandNames li {
+    float: left;
+    list-style: none;
+    margin: 10px 0;
+}
+
+.brandNames li a {
+    display: block;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #E1E1E1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.brandNames li a.special {
+    color: #1095E9;
+    border: 1px solid #1095E9;
+}
+
+.brandNames li a:hover {
+    color: #1095E9;
+    border: 1px solid #1095E9;
+}

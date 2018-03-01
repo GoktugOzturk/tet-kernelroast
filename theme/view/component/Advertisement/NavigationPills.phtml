@@ -1,0 +1,15 @@
+<?php
+/**
+ * @var advertisement_zone_model $zone
+ * @var advertisement_model[]    $advertisements
+ */
+?>
+<? if (count($advertisements)) { ?>
+    <? foreach ($advertisements as $advertisement) { ?>
+        <? if (!empty($advertisement->adv_target)) { ?>
+            <li><a href="<?= $advertisement->adv_target ?>"><?= $advertisement->adv_text ?></a></li>
+        <? } else { ?>
+            <li><a><?= $advertisement->adv_text ?></a></li>
+        <? } ?>
+    <? } ?>
+<? } ?>

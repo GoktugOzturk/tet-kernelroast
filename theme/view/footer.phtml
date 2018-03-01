@@ -1,0 +1,65 @@
+<footer>
+    <div class="subscribe">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="container-district">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <div class="subscribe-title">SUBSCRIBE TO OUR NEWSLETTER</div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="subscribe-content">
+                                    <form>
+                                        <label><input type="email" placeholder="Enter your e-mail"></label>
+                                        <button type="submit"></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="container-district">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <div class="footer-sitemap">
+                                    <?= \TeknoETicaret\Widget\Block::addBlock('footer') ?>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="footer-socials">
+                                    <div class="category-link">SOCIAL KERNEL & ROAST</div>
+                                    <div class="social-links">
+                                        <a href="#" class="facebook"></a>
+                                        <a href="#" class="twitter"></a>
+                                        <a href="#" class="pinterest"></a>
+                                        <a href="#" class="instagram"></a>
+                                        <a href="#" class="youtube"></a>
+                                    </div>
+                                    <address>
+                                        285 Oxford Street, London W1<br>
+                                        +44 20 7153 9000
+                                    </address>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<?= view::getSemanticData() ?>
+<?= view::load_scripts() ?>
+<?
+if (!defined("DISABLE_TRACKERS")) {
+    echo view::load("tracker/global_tracker");
+}
+?>
