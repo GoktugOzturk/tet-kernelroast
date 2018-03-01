@@ -6,7 +6,6 @@
   "config": {
   "skeletonView": {
     "default": "global",
-    "home": "home",
     "cart": "checkout",
     "checkout": "checkout"
   },

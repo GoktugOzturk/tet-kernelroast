@@ -1,0 +1,13 @@
+<?php
+/**
+ * @var advertisement_zone_model $zone
+ * @var advertisement_model[]    $advertisements
+ */
+?>
+<? if (count($advertisements)) { ?>
+    <div class="menu-promotional-area">
+        <? foreach ($advertisements as $advertisement) { ?>
+            <a <?= (!empty($advertisement->adv_target) ? 'href="' . $advertisement->adv_target . '"' : '') ?>><img src="<?= image::getBannerUrl($advertisement) ?>"/></a>
+        <? } ?>
+    </div>
+<? } ?>
