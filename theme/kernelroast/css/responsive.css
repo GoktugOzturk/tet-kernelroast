@@ -1,0 +1,35 @@
+/*
+Author: Genio - Yüce Özkan
+Author URL: http://www.genio.com.tr/
+*/
+
+@media (min-width:1700px) {
+}
+@media (max-width:1400px) {
+
+}
+@media (max-width:1199px) {
+
+}
+@media (max-width:991px) {
+
+}
+@media (max-width:767px) and (orientation:portrait) {
+
+}
+
+@media (max-width:767px) {
+
+}
+
+
+/*
+iphone 6 & iphone 6 plus */
+@media (min-width:569px) and (max-width:767px) {
+
+}
+
+@media (max-width:991px) and (orientation:landscape) {
+
+
+}
