@@ -1,0 +1,34 @@
+<?
+/**
+ * @var \advertisement_model[] $banners
+ * @var string                 $order
+ */
+if ($order == 'V') {
+    $col = 12;
+} else {
+    $col = 12 / count($banners);
+}
+if ($col == 12) {
+    $first = true;
+    $count = 0;
+    foreach ($banners as $key => $banner) {
+        $classes = [];
+        if ($first) {
+            $classes[] = 'first-child';
+            $first = false;
+        }
+        if (++$count == count($banners)) {
+            $classes[] = 'last-child';
+        }
+        echo image::getBannerHtml($banner, $classes);
+    }
+} else {
+    ?>
+    <div class="row">
+    <? foreach ($banners as $key => $banner) { ?>
+        <div class="col-sm-<?= $col ?>">
+            <?= image::getBannerHtml($banner) ?>
+        </div>
+    <? } ?>
+    </div><?
+}

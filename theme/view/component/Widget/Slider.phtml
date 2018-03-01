@@ -1,0 +1,25 @@
+<?
+/**
+ * @var \advertisement_zone_model $zone
+ * @var \advertisement_model[]    $banners
+ * @var bool                      $lazyLoad
+ * @var string                    $id
+ * @var array                     $data
+ */
+?>
+<div class="promo-slider slide">
+    <ul>
+        <? foreach ($banners as $key => $banner) { ?>
+            <li>
+                <a href="<?= $banner->adv_target ?>">
+                    <div class="slide-caption">
+                        <h2>Now Roasting</h2>
+                        <p><?=$banner->adv_text?></p>
+                        <span class="slide-caption-button">DISCOVER</span>
+                    </div>
+                    <img src="<?= image::getBannerUrl($banner) ?>">
+                </a>
+            </li>
+        <? } ?>
+    </ul>
+</div>

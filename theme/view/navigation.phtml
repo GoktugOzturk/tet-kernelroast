@@ -18,15 +18,17 @@
                                 <? if (count($catalogs)) {
                                     $i = 0;
                                     foreach ($catalogs as $catalog) {
-                                        if (++$i % 12 == 0) {
+                                        if (++$i > 12) {
+                                            $i = 0;
                                             echo '</ul><ul>';
                                         }
                                         ?>
-                                        <li>
+                                        <li class="clearfix">
                                             <a href="<?= $catalog['link'] ?>"><?= $catalog['name'] ?> <span>(234)</span></a>
                                             <? if (isset($childCategories[$catalog['id']]) && count($childCategories[$catalog['id']])) { ?>
                                                 <ul>
                                                     <? foreach ($childCategories[$catalog['id']] as $category) { ?>
+                                                        <? $i++; ?>
                                                         <li><a href="<?= $category['link'] ?>"><?= $category['name'] ?> <span>(43)</span></a></li>
                                                     <? } ?>
                                                 </ul>

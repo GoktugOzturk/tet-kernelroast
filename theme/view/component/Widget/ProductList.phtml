@@ -1,0 +1,33 @@
+<?
+/**
+ * @var int           $id
+ * @var string        $title
+ * @var \ob_product[] $products
+ * @var ob_category   $category
+ */
+?>
+<div class="widgetProductList">
+    <h2><?= $title ?></h2>
+    <table class="table table-striped">
+        <tbody>
+        <? foreach ($products as $key => $product) { ?>
+            <tr>
+                <td width="70" class="productImage"><a href="<?= $product->getUrl() ?>"><?= $product->getPhotoImgTag("thumb", 0, true) ?></a></td>
+                <td class="productName"><a href="<?= $product->getUrl() ?>"><?= $product->full_name ?></a></td>
+                <td class="productPrice"><span class="price"><?= icms::format_money($product->getSalePrice()) ?></span>
+                    <? if ($product->getBasePrice() > $product->getSalePrice()) { ?>
+                        <br><span class="oldPrice"><?= icms::format_money($product->getBasePrice()) ?></span>
+                    <? } ?>
+                </td>
+                <td width="100"><? $rating = $product->getRating(); ?>
+                    <? if ($rating->getCount() > 0) { ?>
+                        <div class="rating">
+                            <div class="stars" data-score="<?= $rating->getScore() ?>" data-readonly="true"></div>
+                        </div>
+                    <? } ?>
+                </td>
+            </tr>
+        <? } ?>
+        </tbody>
+    </table>
+</div>

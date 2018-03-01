@@ -1,0 +1,18 @@
+<?
+/**
+ * @var int           $id
+ * @var string        $title
+ * @var product_item[] $products
+ * @var ob_category   $category
+ */
+?>
+<div class="widgetProductList">
+    <h2><?= $title ?></h2>
+    <table class="table table-striped">
+        <tbody>
+        <? foreach ($products as $key => $product) { ?>
+            <?= $product->generate() ?>
+        <? } ?>
+        </tbody>
+    </table>
+</div>

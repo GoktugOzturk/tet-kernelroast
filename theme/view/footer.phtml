@@ -10,8 +10,9 @@
                             </div>
                             <div class="col-xs-4">
                                 <div class="subscribe-content">
-                                    <form>
-                                        <label><input type="email" placeholder="Enter your e-mail"></label>
+                                    <form method="post" action="/member/newsletter">
+                                        <input type="hidden" name="newsletter-form" value="1">
+                                        <label><input type="email" name="email" placeholder="Enter your e-mail"></label>
                                         <button type="submit"></button>
                                     </form>
                                 </div>
