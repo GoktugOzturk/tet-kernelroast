@@ -1,0 +1,16 @@
+<?php
+/**
+ * @var array $breadcrumbs
+ */
+?>
+<? if (count($breadcrumbs)) { ?>
+    <div class="breadcrumbs">
+        <? foreach ($breadcrumbs as $key => $breadcrumb) { ?>
+            <? if (empty($breadcrumb['link'])) { ?>
+                <span><?= $breadcrumb['title'] ?></span>
+            <? } else { ?>
+                <a href="<?= $breadcrumb['link'] ?>"><?= $breadcrumb['title'] ?></a>
+            <? } ?>
+        <? } ?>
+    </div>
+<? } ?>

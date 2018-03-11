@@ -1,0 +1,154 @@
+<?
+/**
+ * @var string       $activeFiltersHtml
+ * @var string       $facetHtml
+ * @var string       $descriptionBlock
+ * @var ob_category  $category
+ * @var ob_brand     $brand
+ * @var string       $searchListTitle
+ * @var array        $sortLinks
+ * @var int          $numFound
+ * @var ob_product[] $products
+ * @var string       $paginationUrl
+ * @var string       $paginationWidgetHtml
+ * @var int          $totalPage
+ * @var int          $currentPage
+ * @var string       $qs
+ */
+?>
+<div class="page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <? view::show_breadcrumbs(); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">
+                <aside class="sidebar">
+                    <?= $activeFiltersHtml ?>
+                    <?= $facetHtml ?>
+                </aside>
+            </div>
+            <div class="col-xs-9">
+                <div class="section-area">
+                    <div class="section-wrapper">
+                        <?= view::show_breadcrumbs() ?>
+                        <?
+                        $bannerUrl = "";
+                        if (!isset($qs) && isset($category)) {
+                            /** @var \advertisement_model[] $topBanners */
+                            $topBanners = \TeknoETicaret\Advertisement\Zone::getAdvertisements(advertisement_zone_model::getByName('CategoryProductTop'), $category->category_id);
+                            if (count($topBanners)) {
+                                $firstBanner = current($topBanners);
+                                $bannerUrl = image::getBannerUrl($firstBanner);
+                            }
+                        }
+                        if (empty($bannerUrl)) {
+                            $bannerUrl = 'https://placeimg.com/820/246/any';
+                        }
+                        ?>
+                        <div class="section-category-image">
+                            <div class="section-category-title">
+                                <? if (isset($qs)) {
+                                    if (!empty($qs)) {
+                                        echo 'Search Results: ' . htmlentities(json_encode($qs));
+                                    } elseif (isset($isJustNew)) {
+                                        echo 'NEW ARRIVALS';
+                                    } else {
+                                        echo 'SEARCH RESULTS';
+                                    }
+                                } elseif (isset($category)) {
+                                    echo $category->category_name;
+                                } elseif (isset($brand)) {
+                                    echo $searchListTitle;
+                                } ?></div>
+                            <img src="<?= $bannerUrl ?>"/>
+                        </div>
+                        <div class="section-sorting-wrapper">
+                            <div class="pull-left">
+                                <form class="sort-by-form">
+                                    <label>
+                                        <?
+                                        if (isset($baseUrl)) {
+                                            $url = parse_url($baseUrl);
+                                        } else {
+                                            $url = ['path' => "/ara"];
+                                        }
+                                        ?>
+                                        <select onchange="window.location.href = $(this).val()">
+                                            <?
+                                            foreach ($sortLinks as $sortLink) {
+                                                if (isset($sortLink['orderType'])) {
+                                                    $sortLink['linkQuery']["orderType"] = $sortLink['orderType'];
+                                                }
+                                                $url['query'] = $sortLink['linkQuery'];
+                                                ?>
+                                                <option value="<?= icms::build_url($url) ?>" <?= $sortLink['isActive'] ? 'selected' : '' ?>><?= $sortLink['title'] ?></option>
+                                            <? } ?>
+                                        </select>
+                                    </label>
+                                </form>
+                            </div>
+                            <div class="pull-right">
+                                <div class="pull-left"><a href="#" class="view-all">View all</a></div>
+                                <div class="pull-left">
+                                    <div class="change-grid">
+                                        <a href="#" class="col-2"></a>
+                                        <a href="#" class="col-3"></a>
+                                        <a href="#" class="col-1"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <? if (isset($products) && is_array($products) && count($products) > 0) { ?>
+                            <div class="category-list">
+                                <ul>
+                                    <? foreach ($products as $key => $product) { ?>
+                                        <li>
+                                            <a href="<?= $product->getUrl() ?>">
+                                                <div class="product-info">
+                                                    <div class="product-image">
+                                                        <?= $product->getPhotoImgTag("catalog") ?>
+                                                    </div>
+                                                    <div class="product-price"><?= icms::format_money($product->getSalePrice(), '£') ?></div>
+                                                    <div class="product-title"><?= $product->full_name ?></div>
+                                                </div>
+                                                <? $rating = $product->getRating(); ?>
+                                                <div class="product-rating">
+                                                    <div class="product-rates" data-rating="<?= $rating->getScore() ?>"></div>
+                                                    <div class="product-comments">(<?= $product->getReviewCount() ?>)</div>
+                                                    <a class="add-comment">Write a review</a>
+                                                </div>
+                                            </a>
+                                            <div class="add-to-basket">
+                                                <form>
+                                                    <div class="add-to-basket-unit"><span>300 ml</span></div>
+                                                    <label class="add-to-basket-quantity">
+                                                        <select id="product-count-<?= $product->product_id ?>">
+                                                            <? for ($i = 1; $i <= min($product->saleableProductCount(), 10); $i++) { ?>
+                                                                <option value="<?= $i ?>"<?= ($i == 1 ? ' selected' : '') ?>><?= $i ?></option>
+                                                            <? } ?>
+                                                        </select>
+                                                    </label>
+                                                    <button type="button"
+                                                            onclick="addToCart('<?= $product->product_id ?>', $(this).parent().find('.add-to-basket-quantity select').val(), '')">
+                                                        ADD TO BASKET
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </li>
+                                    <? } ?>
+                                </ul>
+                            </div>
+                        <? } ?>
+                        <? $totalPage = 99; ?>
+                        <? if (isset($paginationUrl) && $paginationUrl && $totalPage > 1) { ?>
+                            <?= $paginationWidgetHtml ?>
+                        <? } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

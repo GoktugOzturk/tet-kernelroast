@@ -2,6 +2,7 @@
 /**
  * @var \advertisement_model[] $banners
  * @var string                 $order
+ * @var string                 $viewFile
  */
 if ($order == 'V') {
     $col = 12;
@@ -19,15 +20,17 @@ if ($col == 12) {
         }
         if (++$count == count($banners)) {
             $classes[] = 'last-child';
+        } else {
+            $classes[] = 'add-bottom';
         }
-        echo image::getBannerHtml($banner, $classes);
+        echo image::getBannerHtml($banner, $classes, empty($viewFile) ? null : $viewFile);
     }
 } else {
     ?>
     <div class="row">
     <? foreach ($banners as $key => $banner) { ?>
         <div class="col-sm-<?= $col ?>">
-            <?= image::getBannerHtml($banner) ?>
+            <?= image::getBannerHtml($banner, [], empty($viewFile) ? null : $viewFile) ?>
         </div>
     <? } ?>
     </div><?

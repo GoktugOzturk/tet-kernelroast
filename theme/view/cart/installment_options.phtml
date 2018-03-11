@@ -1,0 +1,47 @@
+<?
+/**
+ * @var array $families
+ * @var float $price
+ * @var int   $maxInstallment
+ */
+$count = 1;
+?>
+<div id="fullInstallmentTable" class="row mt">
+    <? foreach ($families as $cardFamilyData) { ?>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="CardFamily CardFamily-<?= $cardFamilyData['card_family_slug'] ?>" colspan="3"><img src="<?= $cardFamilyData['card_family_logo'] ?>"
+                                alt="<?= $cardFamilyData['card_family_name'] ?>"/></th>
+                </tr>
+                <tr>
+                    <th>Taksit</th>
+                    <th class="text-right">Aylık</th>
+                    <th class="text-right">Toplam</th>
+                </tr>
+                </thead>
+                <tbody>
+                <? for ($option = 2; $option <= $maxInstallment; $option++) { ?>
+                    <tr>
+                        <? if (isset($cardFamilyData['installments'][$option])) { ?>
+                            <td><?= $cardFamilyData['installments'][$option]['text'] ?></td>
+                            <td class="text-right"><?= number_format($cardFamilyData['installments'][$option]['installmentPrice'], 2) ?></td>
+                            <td class="text-right <?= number_format($cardFamilyData['installments'][$option]['installment_total'], 2) == number_format($price, 2) ? 'b' : '' ?>">
+                                <?= number_format($cardFamilyData['installments'][$option]['installment_total'], 2) ?>
+                            </td>
+                        <? } ?>
+                    </tr>
+                <? } ?>
+                </tbody>
+            </table>
+        </div>
+        <? if ($count % 2 == 0) { ?>
+            <div class="clearfix visible-sm"></div>
+        <? } ?>
+        <? if ($count % 3 == 0) { ?>
+            <div class="clearfix visible-md visible-lg"></div>
+        <? } ?>
+        <? $count++; ?>
+    <? } ?>
+</div>

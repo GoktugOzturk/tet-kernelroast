@@ -1,0 +1,39 @@
+<?
+/**
+ * @var array $shoppingChecks
+ */
+?>
+<div class="alisverisCheck checkArea">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Alışveriş Çeki</th>
+            <th>İndirim</th>
+            <th class="c">İşlem</th>
+        </tr>
+        </thead>
+        <tbody>
+        <? foreach ($shoppingChecks as $shoppingCheck) { ?>
+            <tr>
+                <td><strong><?= $shoppingCheck['Name'] ?></strong><br/>
+                    <div class="<?= $shoppingCheck['TextCss'] ?>"><?= $shoppingCheck['Text'] ?></div>
+                </td>
+                <td>
+                    <strong><?= $shoppingCheck['Amount'] ?></strong>
+                </td>
+                <td class="c">
+                    <? if ($shoppingCheck['Status'] == "Active") { ?>
+                        <a class="btn btn-success btn-xs" href="javascript:useShoppingCheck(0)">X</a>
+                    <? } else {
+                        if ($shoppingCheck['Status'] == "Usable") { ?>
+                            <a class="btn btn-primary btn-xs" href="javascript:useShoppingCheck(<?= $shoppingCheck['Id'] ?>)">Kullan</a>
+                        <? } else { ?>
+                            <a class="btn btn-danger btn-xs disabled" href="javascript:alert('Bu çeki kullanamazsınız')">Pasif</a>
+                        <? }
+                    } ?>
+                </td>
+            </tr>
+        <? } ?>
+        </tbody>
+    </table>
+</div>

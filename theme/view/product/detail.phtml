@@ -1,0 +1,193 @@
+<?
+/**
+ * @var ob_product                           $obProduct
+ * @var array                                $productGroupLinks
+ * @var bool                                 $hasVariants
+ * @var array                                $variantProperties
+ * @var array                                $productPhotos
+ * @var string                               $mainProductName
+ * @var int                                  $mainProductId
+ * @var string                               $mainProductUrl
+ * @var string                               $FacebookAppID
+ * @var string                               $TwitterAccount
+ * @var \TeknoETicaret\Object\Product\Rating $rating
+ * @var int                                  $reviewCount
+ * @var bool                                 $hasVisiblePriceCampaign
+ * @var bool                                 $hasAvailableShoppingCheck
+ * @var bool                                 $inStock
+ * @var string                               $productDetails
+ * @var array                                $productHasProperty
+ * @var stdClass                             $reviewData
+ * @var float                                $minInstallmentAmount
+ * @var int                                  $maxInstallmentCount
+ * @var int                                  $todayViewCount
+ * @var string                               $semanticData
+ * @var array                                $widgets
+ */
+?>
+<div class="page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <? view::add_breadcrumb($mainProductName, '') ?>
+                <? view::show_breadcrumbs(); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-gallery">
+                <div class="gallery-pager">
+                    <ul>
+                        <? foreach ($productPhotos as $key => $photo) { ?>
+                            <li><a href="javascript:" data-image="<?= $photo['normal'] ?>"><img src="<?= $photo['thumb'] ?>"></a></li>
+                        <? } ?>
+                    </ul>
+                </div>
+                <div class="gallery-viewer">
+                    <img src="<?= $obProduct->getPhoto("normal") ?>">
+                </div>
+            </div>
+            <div class="col-info">
+                <div class="product-info-wrapper">
+                    <div class="product-info-label">
+                        <div class="product-name"><?= $mainProductName ?></div>
+                        <div class="product-rating">
+                            <div class="product-rates-large" data-rating="<?= $rating->getScore() ?>"></div>
+                            <div class="product-comments">(<?= ($reviewCount > 0 ? $reviewCount : 'No') ?> reviews)</div>
+                        </div>
+                        <div class="product-description">Quisque suscipit bibendum auctor. Integer ac felis aliquam risus consectetur tristique.</div>
+                    </div>
+                    <div class="product-basket">
+                        <form>
+                            <div class="product-price">£<?= icms::format_money($obProduct->getSalePrice(), '£', true) ?></div>
+                            <? if ($hasVariants) { ?>
+                                <form role="form" action="<?= $mainProductUrl ?>" method="POST" id="formVariant" data-rel="ajax" data-callback="propertyFormCallback">
+                                    <? foreach ($variantProperties as $propertyId => $propertyData) { ?>
+                                        <div class="product-select-option">
+                                            <? foreach ($propertyData['options'] AS $optionId => $optionData) { ?>
+                                                <label><input type="radio" name="property[<?= $propertyId ?>]" value="<?= $optionId ?>"
+                                                        <? (!$optionData['saleable'] ? 'disabled' : '') ?>
+                                                        <?= ($propertyData['selected'] == $optionId ? 'checked' : '') ?>><?= $optionData['name'] ?></label>
+                                            <? } ?>
+                                        </div>
+                                    <? } ?>
+                                </form>
+                            <? } ?>
+                            <input type="hidden" id="productId" value="<?= $obProduct->product_id ?>"/>
+                            <input type="hidden" id="fromSource" value="<?= (isset($_GET['from']) ? $_GET['from'] : '') ?>"/>
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <div class="product-select-quantity">
+                                        <span>Qty</span><label><input name="quantity" type="tel" value="1" max="<?= $obProduct->saleableProductCount() ?>"></label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-7">
+                                    <? if ($obProduct->is_saleable) { ?>
+                                        <button type="button" class="btn btn-red btn-font-bold btn-letter-spacing"
+                                                onclick="addToCart($('#productId').val(), $('#productQuantity').val(), $('#fromSource').val());">ADD TO BASKET
+                                        </button>
+                                    <? } else { ?>
+                                        <button type="button" disabled class="btn btn-disabled btn-font-bold btn-letter-spacing">OUT OF STOCK</button>
+                                    <? } ?>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="product-info-extra-note">
+                        Free Delivery If You Spend £20
+                    </div>
+                    <div class="product-info-extra-image">
+                        <img src="https://placeimg.com/342/172/any">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="product-tabs tabs">
+                        <ul>
+                            <li><a href="#product-info">Product Description</a></li>
+                            <li><a href="#ingredients">Ingredients</a></li>
+                            <li><a href="#nutrition">Nutrition</a></li>
+                            <li><a href="#comments">Reviews <span>(<?= $reviewCount ?>)</span></a></li>
+                        </ul>
+                        <div id="product-info">
+                            <div class="product-description-content">
+                                <?= $productDetails ?>
+                            </div>
+                        </div>
+                        <div id="ingredients"></div>
+                        <div id="nutrition"></div>
+                        <div id="comments">
+                            <div class="product-reviews">
+                                <div class="product-reviews-title"><span><?= $reviewCount ?> reviews</span> for <?= $obProduct->full_name ?></div>
+                                <div class="product-rating">
+                                    <div class="product-rates-xlarge" data-rating="<?= $rating->getScore() ?>"></div>
+                                    <div class="product-comments"><?= $rating->getScore() ?> out of 5</div>
+                                </div>
+                                <div class="post-review-static">
+                                    <? if ($reviewData->myCommentWaiting) { ?>
+                                        <span>your review is waiting approval</span>
+                                    <? } else { ?>
+                                        <span>post a review</span><br>
+                                        <? if (session::memberId()) { ?>
+                                            <a href="<?= $obProduct->getUrl() . "#tabComments" ?>" class="login-required">login to post a review</a>
+                                        <? } else { ?>
+                                            <a href="#" class="post-review" onclick="$('.productAddReview').show()">write a review</a>
+                                            <div id="yorumyaz" class="row productAddReview" style="display: none;">
+                                                <div class="addReviewForm">
+                                                    <form role="form" action="/product/add_comment" method="POST" onsubmit="return checkCommentForm(this)" id="frmComment">
+                                                        <div class="form-group">
+                                                            <label for="comments">Rating</label>
+                                                            <div class="personelScore clearfix">
+                                                                <div class="rating">
+                                                                    <div id="commentStar" class="pull-left"></div>
+                                                                    <span id="ratingHint"></span>
+                                                                </div>
+                                                                <input type="hidden" name="comment_rating" value="0">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="comment_text">Your Review</label> <textarea id="comment_text" name="comment_text" class="form-control"
+                                                                    rows="10"></textarea>
+                                                        </div>
+                                                        <input type="hidden" name="product" value="<?= $mainProductId ?>"/>
+                                                        <input type="hidden" name="redirect" value="<?= $_SERVER['REQUEST_URI'] ?>"/>
+                                                        <button type="submit" class="btn btn-warning btn-orange mb">Submit</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        <? } ?>
+                                    <? } ?>
+                                </div>
+                                <?= view::load("product/reviews", ['reviewData' => $reviewData]); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="product-testimonial">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="container-district">
+                        <table>
+                            <tr>
+                                <td><img src="https://placeimg.com/250/225/any"></td>
+                                <td>We love working with the White family in their Cotswolds bakery to bring you our delicious range of flapjacks. Here we've taken their 30 year
+                                    old traditional oaty recipe and added chunks of amber honeycomb and a chocolate drizzle for an indulgent, sweet and chewy bake that’s also a
+                                    source of fibre.
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- widget -->
+    <?= \TeknoETicaret\Widget\Block::addBlock('productUnder',
+        ['productId' => $mainProductId, 'categoryId' => $obProduct->category_id, 'brandId' => $obProduct->brand_id,]) ?>
+</div>

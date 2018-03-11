@@ -1,0 +1,43 @@
+<?php
+/**
+ * @var stdClass $reviewData
+ */
+?>
+<div class="product-reviews-content">
+    <? if ($reviewData->helpful) { ?>
+        <?
+        /** @var product_review_model $review */
+        foreach ($reviewData->helpful as $review) {
+            $author = $review->getAuthor();
+            ?>
+            <div class="product-review-item">
+                <div class="product-review-header">
+                    <div class="product-review-user"><?= icms::uctitle($author->firstname . ' ' . mb_substr($author->surname, 0, 1)) ?>.</div>
+                    <div class="product-review-date"><?= icms::format_date($review->review_time) ?></div>
+                    <div class="product-review-rates" data-rating="<?= $review->review_rating ?>"></div>
+                </div>
+                <div class="product-review-content">
+                    <p><?= $review->review_text ?></p>
+                </div>
+            </div>
+        <? } ?>
+    <? } ?>
+    <? if ($reviewData->reviews) { ?>
+        <?
+        /** @var product_review_model $review */
+        foreach ($reviewData->reviews as $review) {
+            $author = $review->getAuthor();
+            ?>
+            <div class="product-review-item">
+                <div class="product-review-header">
+                    <div class="product-review-user"><?= icms::uctitle($author->firstname . ' ' . mb_substr($author->surname, 0, 1)) ?>.</div>
+                    <div class="product-review-date"><?= icms::format_date($review->review_time) ?></div>
+                    <div class="product-review-rates" data-rating="<?= $review->review_rating ?>"></div>
+                </div>
+                <div class="product-review-content">
+                    <p><?= $review->review_text ?></p>
+                </div>
+            </div>
+        <? } ?>
+    <? } ?>
+</div>

@@ -1,0 +1,260 @@
+<?
+/**
+ * @var array                                          $cityList
+ * @var array                                          $townListDelivery
+ * @var array                                          $districtListDelivery
+ * @var array                                          $townListInvoice
+ * @var array                                          $districtListInvoice
+ * @var \TeknoETicaret\Shopping\Object\Checkout        $checkout
+ * @var \TeknoETicaret\Shopping\Object\DeliveryAddress $deliveryAddress
+ * @var \TeknoETicaret\Shopping\Object\InvoiceInfo     $invoiceInfo
+ */
+?>
+<div class="checkoutContent mb">
+    <h2>TESLİMAT VE FATURA BİLGİLERİ</h2>
+    <div class="messagebox alert alert-info">Teslimat adresi için lütfen aşağıdaki formu doldurunuz.</div>
+    <form class="form-horizontal" role="form" id="addressForm" action="/checkout/deliveryNewAddress" method="post">
+        <input type="hidden" name="form" value="newAddress"/>
+        <input type="hidden" id="deliveryOptionId" name="delivery_option" value="<?= $checkout->deliveryOptionId ?>"/>
+        <? if (session::isMember()) { ?>
+            <div class="form-group">
+                <label for="address_title_1" class="col-sm-4 control-label">Adres Başlığı</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="address_title_1" id="address_title_1" maxlength="128" value="<?= $deliveryAddress->address_title ?>"
+                            placeholder="Adresi tanımlayan bir başlık giriniz. Örn: Ev, ofis vs."/>
+                </div>
+            </div>
+        <? } ?>
+        <div class="form-group">
+            <label for="recipient_name" class="col-sm-4 control-label">Alıcı Adı</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" name="recipient_name" id="recipient_name" maxlength="128" placeholder="Kargoyu teslim alacak kişi"
+                        value="<?= (empty($deliveryAddress->recipient_name) && session::isMember() ? session::get("fullName") : $deliveryAddress->recipient_name) ?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="city_id_1" class="col-sm-4 control-label">Şehir</label>
+            <div class="col-sm-8">
+                <?= form::select("city_id_1", $cityList, $deliveryAddress->city_id, [
+                    'id' => "city_id_1",
+                    'onchange' => "OASIS.fetchLinkedField('/ajax/towns/',this.value,'#town_id_1')",
+                    'class' => 'form-control',
+                ]) ?>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="town_id_1" class="col-sm-4 control-label">İlçe</label>
+            <div class="col-sm-8">
+                <?=
+                form::select("town_id_1", $townListDelivery, $deliveryAddress->town_id, [
+                    'id' => 'town_id_1',
+                    'onchange' => "OASIS.fetchLinkedField('/ajax/districts/',this.value,'#district_id_1')",
+                    'class' => 'form-control',
+                ]) ?>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="district_id_1" class="col-sm-4 control-label">Semt</label>
+            <div class="col-sm-8">
+                <?= form::select("district_id_1", $districtListDelivery, $deliveryAddress->district_id, ['id' => "district_id_1", 'class' => 'form-control']) ?>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="address_text_1" class="col-sm-4 control-label">Adres</label>
+            <div class="col-sm-8">
+                <textarea class="form-control" id="address_text_1" name="address_text_1" cols="30" rows="2"><?= $deliveryAddress->address_text ?></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="postcode_1" class="col-sm-4 control-label">Posta Kodu</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="postcode_1" name="postcode_1" maxlength="5" value="<?= $deliveryAddress->postcode ?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="phone_number_1" class="col-sm-4 control-label">Telefon</label>
+            <div class="col-sm-8">
+                <input type="tel" class="form-control" id="phone_number_1" name="phone_number_1" maxlength="20" placeholder="0 532 1234567"
+                        value="<?= icms::formatPhoneNumber($deliveryAddress->phone_number) ?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="checkbox col-sm-offset-4 col-sm-8">
+                <label> <input type="checkbox" id="invoiceCheckBox" name="invoice_same_address"
+                            value="1" <?= (!$checkout->useSeperateInvoiceAddress ? 'checked="checked"' : "") ?>> Fatura bilgilerim teslimat adresimle aynı olsun.</label>
+            </div>
+        </div>
+        <div class="invoice">
+            <h2>Fatura Bilgileri</h2>
+        </div>
+        <? if (session::isMember()) { ?>
+            <div class="form-group invoice">
+                <label for="address_title_2" class="col-sm-4 control-label">Adres Başlığı</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="address_title_2" id="address_title_2" maxlength="128" value="<?= $invoiceInfo->address_title ?>"
+                            placeholder="Adresi tanımlayan bir isim giriniz. Örn: Şirket, Bireysel vs."/>
+                </div>
+            </div>
+        <? } ?>
+        <div class="form-group invoice">
+            <label for="city_id_2" class="col-sm-4 control-label">Şehir</label>
+            <div class="col-sm-8">
+                <?= form::select("city_id_2", $cityList, $invoiceInfo->city_id, [
+                    'id' => "city_id_2",
+                    'onchange' => "OASIS.fetchLinkedField('/ajax/towns/',this.value,'#town_id_2')",
+                    'class' => 'form-control',
+                ]) ?>
+            </div>
+        </div>
+        <div class="form-group invoice">
+            <label for="town_id_2" class="col-sm-4 control-label">İlçe</label>
+            <div class="col-sm-8">
+                <?=
+                form::select("town_id_2", $townListInvoice, $invoiceInfo->town_id, [
+                    'id' => 'town_id_2',
+                    'onchange' => "OASIS.fetchLinkedField('/ajax/districts/',this.value,'#district_id_2')",
+                    'class' => 'form-control',
+                ]) ?>
+            </div>
+        </div>
+        <div class="form-group invoice">
+            <label for="district_id_2" class="col-sm-4 control-label">Semt</label>
+            <div class="col-sm-8">
+                <?= form::select("district_id_2", $districtListInvoice, $invoiceInfo->district_id, ['id' => "district_id_2", 'class' => 'form-control']) ?>
+            </div>
+        </div>
+        <div class="form-group invoice">
+            <label for="address_text_2" class="col-sm-4 control-label">Adres</label>
+            <div class="col-sm-8">
+                <textarea class="form-control" id="address_text_2" name="address_text_2" cols="30" rows="2"><?= $invoiceInfo->address_text ?></textarea>
+            </div>
+        </div>
+        <div class="form-group invoice">
+            <label for="postcode_2" class="col-sm-4 control-label">Posta Kodu</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="postcode_2" name="postcode_2" maxlength="5" value="<?= $invoiceInfo->postcode ?>"/>
+            </div>
+        </div>
+        <div class="form-group invoice">
+            <label for="phone_number_2" class="col-sm-4 control-label">Telefon</label>
+            <div class="col-sm-8">
+                <input type="tel" class="form-control" id="phone_number_2" name="phone_number_2" maxlength="20" placeholder="0 532 1234567"
+                        value="<?= icms::formatPhoneNumber($invoiceInfo->phone_number) ?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-8">
+                <?= form::radio("address_type", member_invoice_info_model::$addressTypes, $invoiceInfo->address_type) ?>
+            </div>
+        </div>
+        <div class="form-group invoice personal">
+            <label for="tax_payerP" class="col-sm-4 control-label">Ad Soyad</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="tax_payerP" name="tax_payer_personal" maxlength="256"
+                        value="<?= (empty($invoiceInfo->tax_payer) && session::isMember() ? session::get("fullName") : $invoiceInfo->tax_payer) ?>"/>
+            </div>
+        </div>
+        <div class="form-group personal">
+            <label for="tc_kimlik" class="col-sm-4 control-label">T.C. Kimlik No</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="tc_kimlik" name="tc_identification_no" maxlength="11" onkeyup="OASIS.fixIntegerInput(this, true);"
+                        onblur="OASIS.fixIntegerInput(this, false);" value="<?= ($invoiceInfo->tc_identification_no == 0 ? "" : $invoiceInfo->tc_identification_no) ?>">
+            </div>
+        </div>
+        <div class="form-group corporate">
+            <label for="tax_payerC" class="col-sm-4 control-label corporate">Firma Adı</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="tax_payerC" name="tax_payer_company" maxlength="256" value="<?= $invoiceInfo->tax_payer ?>"/>
+            </div>
+        </div>
+        <div class="form-group corporate">
+            <label for="tax_department" class="col-sm-4 control-label">Vergi Dairesi</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="tax_department" name="tax_department" maxlength="64" value="<?= $invoiceInfo->tax_department ?>"/>
+            </div>
+        </div>
+        <div class="form-group corporate">
+            <label for="tax_no" class="col-sm-4 control-label">Vergi Numarası</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="tax_no" name="tax_no" maxlength="10" onkeyup="OASIS.fixIntegerInput(this, true);"
+                        onblur="OASIS.fixIntegerInput(this, false);" value="<?= ($invoiceInfo->tax_no == 0 ? "" : $invoiceInfo->tax_no) ?>"
+                />
+            </div>
+        </div>
+        <div class="form-group corporate">
+            <div class="checkbox col-sm-offset-4 col-sm-8">
+                <label> <input type="checkbox" name="is_efatura_user" value="1" <?= ($invoiceInfo->is_efatura_user ? 'checked="checked"' : "") ?>> E-Fatura kullanıcısıyım.</label>
+            </div>
+        </div>
+        <div class="form-group invoice">
+            <div class="checkbox col-sm-offset-4 col-sm-8">
+                <label> <input type="checkbox" id="invoiceCheckBox" name="send_invoice_with_shipment"
+                            value="1" <?= ($checkout->sendInvoiceWithShipment ? 'checked="checked"' : "") ?>> Fatura ürünlerle birlikte gönderilsin</label>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("input[name=address_type]").on("change", function () {
+            if ($(this).filter(":checked").val() == "Personal") {
+                $(".corporate").hide();
+                $(".personal").show();
+            } else {
+                $(".corporate").show();
+                $(".personal").hide();
+            }
+        });
+        $("#invoiceCheckBox").on("change", function () {
+            if ($("input[name=invoice_same_address]:checked").length == 0) {
+                $(".invoice").show();
+            } else {
+                $(".invoice").hide();
+            }
+            $("input[name=address_type]:checked").trigger("change");
+        }).trigger("change");
+        $("#addressForm").validate($.extend(validationConfig, {
+            rules: {
+                recipient_name: {required: true, minlength: 5, maxlength: 128},
+                city_id_1: {required: true, min: 1},
+                city_id_2: {required: true, min: 1},
+                town_id_1: {required: true, min: 1},
+                town_id_2: {required: true, min: 1},
+                address_text_1: {required: true},
+                address_text_2: {required: true},
+                phone_number_1: {pattern: '\\+?[0-9\(\) ]+', minlength: 10, required: true},
+                phone_number_2: {pattern: '\\+?[0-9\(\) ]+', minlength: 10, required: true},
+                tax_payer_personal: {required: true},
+                tax_payer_company: {required: true},
+                tax_department: {required: true},
+                tax_no: {minlength: 10, digits: true, required: true},
+                postcode_1: {minlength: 5, digits: true},
+                tc_identification_no: {
+                    minlength: 11,
+                    <?=(\TeknoETicaret\Config\Settings::get('order.address.tcnorequired') ? 'required: true,' : '')?>
+                    digits: true
+                }
+            },
+            messages: {
+                recipient_name: "Alıcı Adı boş olamaz",
+                city_id_1: "Lütfen şehir seçiniz",
+                city_id_2: "Lütfen şehir seçiniz",
+                town_id_1: "Lütfen ilçe seçiniz",
+                town_id_2: "Lütfen ilçe seçiniz",
+                address_text_1: "Teslimat adresi boş olamaz",
+                address_text_2: "Fatura adresi boş olamaz",
+                phone_number_1: "Telefon numaranızı 0 (500) 123 45 67 formatında yazın",
+                phone_number_2: "Telefon numaranızı 0 (500) 123 45 67 formatında yazın",
+                tax_payer_personal: "Mükellef adı boş olamaz",
+                tax_payer_company: "Firmanın adı boş olamaz",
+                tax_department: "Vergi Dairesi boş olamaz",
+                tax_no: "Vergi Numarası 10 hane olmalıdır. Boşluk bırakmayınız",
+                postcode_1: "Posta kodunuz 5 haneli rakam olmalıdır",
+                tc_identification_no: "TC Kimlik Numaranız 11 hane olmalıdır"
+            }
+        }));
+        $(document).on("click", ".continueBtn", function () {
+            $('form#addressForm').submit();
+        });
+    });
+</script>

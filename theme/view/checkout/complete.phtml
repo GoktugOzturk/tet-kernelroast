@@ -1,0 +1,43 @@
+<?
+/**
+ * @var payment_wire_transfer_model $wireTransfer
+ * @var ob_order                    $order
+ * @var string                      $wireTransferNotes
+ */
+?>
+<div align="center" class="col-xs-8 col-xs-offset-2 checkoutStep">
+    <div class="checkoutStep3"></div>
+</div>
+<div class="checkoutContent mb">
+    <h2 class="cartColor">SİPARİŞİNİZ TAMAMLANDI</h2>
+    <div class="orderCartDetails orderCompleteHeight clearfix mb">
+        Sayın <?= mb_strtoupper(session::get("fullName")) ?>,
+        <p class="completeThanks">Siparişiniz başarıyla tamamladınız.</p>
+        <p class="orderNumber b" style="font-size: 14px;">Sipariş Numaranız: <b><?= $order->order_code ?></b></p>
+        <p class="orderDescriptions">Siparişinizin durumunu sayfamızın sağ üstünde bulunan "Sipariş Takip" linkinden takip edebilirsiniz.</p>
+        <a href="<?= app::getUrl(ACTIVE_APP, "http") . "/order/details/" . $order->order_code ?>" class="btn btn-success">Siparişimi Görüntüle</a>
+        <a href="<?= app::getUrl(ACTIVE_APP, "http") ?>" class="btn btn-default">Anasayfaya Dön</a>
+        <p class="orderWarning"><br/> <span class="b">Önemli Uyarı!</span><br/> Ürünü teslim almadan önce paket içeriğini kontrol ediniz. Hasarlı ürünlerle ilgili tutanak
+            tutturunuz.
+        </p>
+    </div>
+    <? if ($order->payment_method_id == payment_method_model::METHOD_ID_WIRETRANSFER && $wireTransfer) { ?>
+        <? $bankAccount = new finance_bank_account_model($wireTransfer->bank_account_id); ?>
+        <h2 class="cartColor">Ödeme Yapacağınız Banka Bilgileri</h2>
+        <div class="orderCartDetails clearfix mb">
+            <div class="bs-example">
+                <div class="" style="font-size: 16px;font-weight: 700"><?= $bankAccount->account_name ?></div>
+                <div>IBAN: <b><?= $bankAccount->formatIban() ?></b><br>
+                    Şube Adı: <?= $bankAccount->branch_name ?><br>
+                    Şube No: <?= $bankAccount->branch_code ?><br>
+                    Hesap No: <?= $bankAccount->account_number ?>
+                </div>
+            </div>
+        </div>
+        <? if (!empty($wireTransferNotes)) { ?>
+            <div class="well" id="moneyTransferInfo">
+                <?= $wireTransferNotes ?>
+            </div>
+        <? } ?>
+    <? } ?>
+</div>

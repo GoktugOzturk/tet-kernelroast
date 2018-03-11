@@ -1,0 +1,89 @@
+<?
+/**
+ * @var boolean $hasError
+ * @var string  $ErrorMessage
+ * @var boolean $PaymentModelCash
+ * @var boolean $PaymentModelCard
+ * @var boolean $SmsVerification
+ * @var boolean $PhoneVerified
+ * @var string  $PhoneNumber
+ * @var string  $OnDeliveryNoteTitle
+ * @var string  $OnDeliveryNoteContent
+ */
+?>
+<div id="OnDeliveryPayment">
+    <h2>Kapıda Ödeme</h2>
+    <? if ($hasError) { ?>
+        <div class="alert alert-warning">
+            <?= $ErrorMessage ?>
+        </div>
+    <? } elseif (!empty($OnDeliveryNoteContent)) { ?>
+        <div class="text">
+            <!-- start -->
+            <?= $OnDeliveryNoteContent ?>
+            <!-- end -->
+        </div>
+        <? if ($SmsVerification) { ?>
+            <h4>Cep Telefonu Doğrulama</h4>
+            <? if ($PhoneVerified) { ?>
+                <p><?= $PhoneNumber ?> no'lu cep telefonunuz doğrulanmıştır.</p>
+            <? } else { ?>
+                <div id="VerificationRequest">
+                    <p>Aşağıdaki alana doğrulama kodunun gönderileceği cep telefonu numarasını girin ve '<b>Kodu Gönder</b>' butonuna basın.</p>
+                    <form id="VerificationRequestForm" method="POST" action="/checkout/paymentCall/OnDelivery/?call=SendVerificationCode" data-rel="ajax"
+                            data-callback="VerificationRequestResponse" onsubmit="VerificationRequestSent(this)">
+                        <input type="hidden" name="form" value="VerificationRequestForm"/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input type="text" name="phoneNumber" value="<?= $PhoneNumber ?>" class="form-control" placeholder="Cep Telefonu Numaranız">
+                                    <span class="input-group-btn"><button class="btn btn-info" type="submit">Kodu Gönder</button></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="RequestMessage"></div>
+                        </div>
+                    </form>
+                </div>
+                <div id="VerificationCode" style="display:none">
+                    <p>Cep telefonunuza gönderilen mesajda bulunan doğrulama kodunu aşağıdaki alana girin ve '<b>Doğrula</b>' butonuna basın.</p>
+                    <form id="VerificationCodeForm" method="POST" action="/checkout/paymentCall/OnDelivery/?call=VerifyCode" data-rel="ajax" data-callback="VerifyCodeResponse"
+                            onsubmit="VerificationCodeSent(this)">
+                        <input type="hidden" name="form" value="VerificationCodeForm"/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group ">
+                                    <input type="text" name="verificationCode" class="form-control" placeholder="Doğrulama Kodu">
+                                    <span class="input-group-btn"><button class="btn btn-info" type="submit">Doğrula!</button></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="VerifyMessage"></div>
+                        </div>
+                    </form>
+                </div>
+                <div id="VerificationSuccess" style="display:none">Cep telefonunuz doğrulanmıştır.</div>
+            <? } ?>
+        <? } ?>
+        <div id="DeliveryPaymentModel">
+            <form id="OnDeliveryForm" method="POST" action="/checkout/paymentSubmit/OnDelivery">
+                <input type="hidden" name="form" value="checkout-ondelivery"/>
+                <? if ($PaymentModelCash && $PaymentModelCard) { ?>
+                    <h4>Ödeme Şeklini Seçin</h4>
+                    <ul>
+                        <li class="radio">
+                            <label><input type="radio" name="payment_type" value="Cash"> Kapıda Nakit Öde</label>
+                        </li>
+                        <li class="radio">
+                            <label><input type="radio" name="payment_type" value="Card"> Kapıda Kredi/Banka Kartı ile Öde</label>
+                        </li>
+                    </ul>
+                <? } elseif ($PaymentModelCard) { ?>
+                    <h5>Ödeme Şekli: Kapıda Kredi/Banka Kartı</h5>
+                    <input type="hidden" name="payment_type" value="Card"/>
+                <? } else { ?>
+                    <h5>Ödeme Şekli: Kapıda Nakit</h5>
+                    <input type="hidden" name="payment_type" value="Cash"/>
+                <? } ?>
+            </form>
+        </div>
+    <? } ?>
+</div>

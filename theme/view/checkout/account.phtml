@@ -1,0 +1,147 @@
+<?php
+/**
+ * @var bool   $halfLogin
+ * @var string $accountMail
+ * @var string $redirectTo
+ */
+?>
+<div class="page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-9">
+                <div class="cart-page">
+                    <div class="cart-breadcrumbs">
+                        <ul>
+                            <li class="active"><a href="#">CART</a></li>
+                            <li class=""><a href="#">DELIVERY</a></li>
+                            <li class=""><a href="#">PAYMENT</a></li>
+                            <li class=""><a href="#">RECEIPT</a></li>
+                        </ul>
+                    </div>
+                    <div class="row" id="checkoutAccount">
+                        <div class="col-xs-6">
+                            <h1>Already <span>Registered</span></h1>
+                            <div class="form-module">
+                                <form method="post" action="/ajax/signin" role="form" id="loginForm" autocomplete="off">
+                                    <input type="hidden" name="redirectTo" value="<?= $redirectTo ?>">
+                                    <fieldset>
+                                        <div class="form-row error">
+                                            <div class="form-row-title">Email Address</div>
+                                            <div class="form-row-content">
+                                                <label>
+                                                    <input name="email" type="email" class="input-text" autocomplete="off">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-row-title">Password</div>
+                                            <div class="form-row-content">
+                                                <label>
+                                                    <input name="password" type="password" class="input-text" autocomplete="new-password">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-row-title"><a href="/member/forgot_password">Forgotten your password</a></div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="row">
+                                                <div class="col-xs-9">
+                                                    <button type="submit" class="btn btn-red btn-font-bold btn-arrow">LOGIN</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 pull-right">
+                            <h1>New to <span>Kernel & Roast</span></h1>
+                            <div class="form-module">
+                                <form method="post" action="/ajax/signup" role="form" id="registerForm" novalidate="novalidate">
+                                    <input type="hidden" name="redirectTo" value="<?= $redirectTo ?>">
+                                    <fieldset>
+                                        <div class="form-row">
+                                            <div class="form-row-title">First Name</div>
+                                            <div class="form-row-content">
+                                                <label>
+                                                    <input type="text" name="firstname" class="input-text">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-row-title">Last Name</div>
+                                            <div class="form-row-content">
+                                                <label>
+                                                    <input type="text" name="surname" class="input-text">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-row-title">Email Address</div>
+                                            <div class="form-row-content">
+                                                <label>
+                                                    <input type="email" onkeypress="return disableSpaceKey(event);" name="email" class="input-text"
+                                                            placeholder="example@address.com">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="form-row">
+                                                    <div class="form-row-title">Password</div>
+                                                    <div class="form-row-content">
+                                                        <label>
+                                                            <input type="password" name="passwd" class="input-text" placeholder="Min.6 characters">
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-row">
+                                                    <div class="form-row-title">Password <span>(again)</span></div>
+                                                    <div class="form-row-content">
+                                                        <label>
+                                                            <input type="password" name="passwd_check" class="input-text" placeholder="">
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-row-content">
+                                                <label class="checkbox">
+                                                    <input type="checkbox" checked name="subscription">
+                                                    Send me the latest updates and exclusive offers
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="terms-agree-line">By signing up to Kernel & Roast, you agree to <a>our terms</a> and <a>our privacy</a> and <a>cookies
+                                                    policies.</a></div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="row">
+                                                <div class="col-xs-9">
+                                                    <button type="submit" class="btn btn-red btn-font-bold btn-arrow">SIGNUP</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <div class="cart-image"><?= \TeknoETicaret\Advertisement\Zone::renderGlobal('CartRight') ?></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('.checkoutAccount form').on("submit", authFormSubmit);
+    });
+</script>

@@ -1,0 +1,50 @@
+<?
+/**
+ * @var array $installments
+ * @var array $response
+ */
+?>
+<h2 class="m0">Taksit Seçenekleri</h2>
+<table class="table table-hover">
+    <thead>
+    <tr style="background-color: #f9f9f9;">
+        <th></th>
+        <th class="tabletd" valign="middle"><strong>Taksit Bilgisi</strong></th>
+        <th class="tabletd text-right" valign="middle"><strong>Aylık Ödeme</strong></th>
+        <th class="tabletd text-right" valign="middle"><strong>Toplam Tutar</strong></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td valign="middle">
+            <input type="radio" value="0" name="installment_id" id="installment0" data-amount="<?= $installments['price'] ?>"
+                    data-secure3d="<?= ($response['AdvanceForce3DSecure'] ? "Force" : ($response['AdvanceHas3DSecure'] ? "On" : "Off")) ?>"/>
+        </td>
+        <td valign="middle">1 Taksit</td>
+        <td class="text-right optionBold" valign="middle"><span class="amount-span b"><?= icms::format_money($installments['price']) ?></span></td>
+        <td class="text-right optionBold" valign="middle"><span class="amount-span b"><?= icms::format_money($installments['price']) ?></span></td>
+    </tr>
+    <? if (isset($installments['installments']) && $installments['installments']) { ?>
+        <? foreach ($installments['installments'] as $installment) { ?>
+            <tr>
+                <td valign="middle">
+                    <input type="radio" value="<?= $installment['installment_id'] ?>" name="installment_id" id="installment<?= $installment['installment_id'] ?>"
+                            data-amount="<?= $installment['installment_total'] ?>"
+                            data-secure3d="<?= ($response['InstallmentForce3DSecure'] ? "Force" : ($response['InstallmentHas3DSecure'] ? "On" : "Off")) ?>"/>
+                </td>
+                <td valign="middle">
+                    <?= $installment['text'] ?>
+                </td>
+                <td class="text-right no-extra-cost" valign="middle">
+                    <span
+                            class="amount-span <?= $installment['installment_total'] == $installments['price'] ? 'b' : '' ?>"><?= icms::format_money($installment['installmentPrice']) ?></span>
+                </td>
+                <td class="text-right no-extra-cost" valign="middle">
+                    <span
+                            class="amount-span <?= $installment['installment_total'] == $installments['price'] ? 'b' : '' ?>"><?= icms::format_money($installment['installment_total']) ?></span>
+                </td>
+            </tr>
+        <? } ?>
+    <? } ?>
+    </tbody>
+</table>

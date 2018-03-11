@@ -1,0 +1,43 @@
+<?
+/**
+ * @var array                             $paymentTabs
+ * @var \TeknoETicaret\Shopping\Cart\Cart $cart
+ * @var string                            $onBilgilendirmeFormu
+ */
+?>
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+        <div class="checkout-wrap">
+            <ul class="checkout-bar">
+                <li class="visited first"><a href="/cart">Alışveriş Sepeti</a></li>
+                <li class="visited"><a href="/checkout/delivery">Teslimat ve Fatura</a></li>
+                <li class="active">Ödeme</li>
+                <li>Sipariş Tamamlandı</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 col-xs-12">
+        <ul id="paymentMethods" class="nav nav-tabs" role="tablist">
+            <? foreach ($paymentTabs as $paymentKey => $paymentName) { ?>
+                <li role="presentation">
+                    <a href="#<?= $paymentKey ?>Tab" aria-controls="<?= $paymentKey ?>Tab" role="tab" data-url="/checkout/paymentForm/<?= $paymentKey ?>"
+                            data-target="#<?= $paymentKey ?>Tab" data-toggle="tab" data-paymentmethod="<?= $paymentKey ?>"> <?= $paymentName ?> </a>
+                </li>
+            <? } ?>
+        </ul>
+        <div id="paymentOptions" class="tab-content checkoutContent mb">
+            <? foreach ($paymentTabs as $paymentKey => $paymentName) { ?>
+                <div role="tabpanel" class="tab-pane fade" id="<?= $paymentKey ?>Tab"></div>
+            <? } ?>
+        </div>
+        <div class="checkoutContent mb">
+            <div class="visible-xs-block text-center"><a class="btn btn-default" href="javascript:" id="MobileAgreementSwitcher">Sözleşmeleri Göster</a></div>
+            <div id="agreementWrapper" class="hideAgreementsOnMobile">
+                <div id="agreements" style="display: none"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-xs-12" id="cartSummary"></div>
+</div>

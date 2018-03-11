@@ -1,0 +1,13 @@
+<?
+/**
+ * @var string $Status
+ * @var string $Response
+ */
+?>
+<script type="text/javascript">
+    <? if ( $Status == 'FAIL' ) { ?>
+    parent.creditCardChargeFailed(<?=$Response ?>);
+    <? } else { ?>
+    parent.startStatusCheck(<?=$Response ?>, 500);
+    <? } ?>
+</script>

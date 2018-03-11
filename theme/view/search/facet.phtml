@@ -1,0 +1,58 @@
+<?php
+/**
+ * @var array $parentCategories
+ * @var array $subCategories
+ * @var array $filterGroups
+ */
+?>
+<div class="sidebar-wrapper">
+    <a href="/" class="nav-to-back">MAIN PAGE</a>
+    <div class="nav-accordion accordion">
+        <div class="accordion-title">PRODUCTS</div>
+        <div class="accordion-content">
+            <div class="nav-content">
+                <ul>
+                    <? if (count($parentCategories)) { ?>
+                        <? foreach ($parentCategories as $category) { ?>
+                            <li class="grid<?= $category['depth'] ?>"><a <?= ($category['active'] ? 'class="active"' : '') ?>
+                                        href="<?= $category['link'] ?>"><?= $category['title'] ?></a>
+                            </li>
+                        <? } ?>
+                    <? } ?>
+                    <? if (count($subCategories)) { ?>
+                        <? foreach ($subCategories as $category) { ?>
+                            <li class="grid<?= $category['depth'] ?>"><a href="<?= $category['link'] ?>"><?= $category['title'] ?> (<?= $category['resultCount'] ?>)</a>
+                            </li>
+                        <? } ?>
+                    <? } ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="filter-wrapper accordion">
+        <div class="filter-title accordion-title">PRICE RANGE</div>
+        <div class="filter-content accordion-content">
+            <div id="price-range">
+                <span class="value value-min">£<i>0</i></span>
+                <span class="value value-max">£<i>300</i></span>
+            </div>
+        </div>
+    </div>
+    <? if (count($filterGroups)) { ?>
+        <? foreach ($filterGroups as $filterGroup) { ?>
+            <div class="nav-accordion accordion">
+                <div class="accordion-title"><?= $filterGroup['title'] ?></div>
+                <div class="accordion-content">
+                    <div class="nav-content">
+                        <ul>
+                            <? foreach ($filterGroup['items'] as $item) { ?>
+                                <li><a href="<?= $item['link'] ?>"><?= $item['title'] ?> (<?= $item['resultCount'] ?>)</a></li>
+                            <? } ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <? } ?>
+    <? } ?>
+</div>
+

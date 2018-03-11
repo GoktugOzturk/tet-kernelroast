@@ -1,0 +1,168 @@
+<?
+/**
+ * @var \TeknoETicaret\Shopping\Cart\Cart $cart
+ * @var array                             $summaryDetails
+ * @var array                             $checkFreeShipping
+ * @var float                             $minInstallmentPrice
+ * @var bool                              $showUseShoppingCheck
+ */
+$memberShoppingCheck = $cart->getShoppingCheck();
+$coupon = $cart->getCoupon();
+?>
+<?= \TeknoETicaret\Widget\Block::addBlock('cartTop') ?>
+<div class="page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-9">
+                <div class="cart-page">
+                    <div class="cart-breadcrumbs">
+                        <ul>
+                            <li class="active"><a href="#">CART</a></li>
+                            <li class=""><a href="#">DELIVERY</a></li>
+                            <li class=""><a href="#">PAYMENT</a></li>
+                            <li class=""><a href="#">RECEIPT</a></li>
+                        </ul>
+                    </div>
+                    <div class="cart-view">
+                        <table>
+                            <tr class="header">
+                                <td class="product-remove">DELETE</td>
+                                <td class="product-thumbnail">ADDED ITEMS</td>
+                                <td class="product-info"></td>
+                                <td class="product-qty">QUANTITY</td>
+                                <td class="product-price">PRICE</td>
+                                <td class="product-price-total">TOTAL</td>
+                            </tr>
+                            <?
+                            $packages = $cart->getPackages();
+                            $totalEarnings = 0;
+                            $divide = false;
+                            foreach ($packages as $key => $package) {
+                                $packageProducts = $cart->getPackageProducts($package);
+                                foreach ($packageProducts as $product) {
+                                    /** @var ob_product $obProduct */
+                                    $obProduct = $product->getProduct();
+                                    $inStock = intval($obProduct->warehouse_stock);
+                                    $productTotalBasePrice = round($obProduct->getBasePrice() * $product->getQuantity(), 2);
+                                    ?>
+                                    <tr>
+                                        <td class="product-remove"><a href="#" class="remove"></a></td>
+                                        <td class="product-thumbnail"><img src="<?=$obProduct->getPhoto('thumb')?>"></td>
+                                        <td class="product-info"><?= $obProduct->full_name ?></td>
+                                        <td class="product-qty">
+                                            <div class="product-quantity"><input type="text" id="qty-<?= $obProduct->product_id ?>" data-ref="update<?= $obProduct->product_id ?>"
+                                                        name="quantity[<?= $obProduct->product_id ?>]" class="quantity_input" min="0"
+                                                        max="<?= $obProduct->saleableProductCount() ?>" value="<?= $product->getQuantity() ?>" title="Quantity"
+                                                        onblur="quantity($(this))"></div>
+                                        </td>
+                                        <td class="product-price">£<?= icms::format_money($obProduct->getSalePrice(),null) ?></td>
+                                        <td class="product-price-total">£<?= icms::format_money($product->getTotalPrice(),null) ?></td>
+                                    </tr>
+                                    <?
+                                }
+                            }
+                            ?>
+                        </table>
+                    </div>
+                    <div class="cart-collaterals">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="promotion-code">
+                                        <a href="#" class="promotion-code-trigger">Enter Promo code<span>if available</span></a>
+                                    </div>
+                                </td>
+                                <td class="total-price-label">TOTAL PRICE</td>
+                                <td class="total-price">£<?= icms::format_money($cart->getTotalPrice(), null) ?></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="cart-footer">
+                        <div class="row">
+                            <div class="col-xs-4"><a href="/" class="btn btn-double-bordered btn-gray-bordered btn-font-medium half-bottom">CONTINUE SHOPPING</a></div>
+                            <div class="col-xs-4 pull-right"><a href="<?= app::getUrl(ACTIVE_APP, "https") ?>/checkout" class="btn btn-red btn-font-bold">PROCEED TO CHECKOUT</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <div class="cart-image"><?= \TeknoETicaret\Advertisement\Zone::renderGlobal('CartRight') ?></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var qtyChanged = false;
+    $(function () {
+        $('.quantity_input').change(function () {
+            qtyChanged = false;
+            $("#buyNowButton").show();
+            $("#updateButton").hide();
+            $.each($('form#cartUpdate input.quantity_input'), function () {
+                if ($(this).val() !== $(this).attr("value")) {
+                    $("a." + $(this).data('ref')).show();
+                    $("#buyNowButton").hide();
+                    $("#updateButton").show();
+                    qtyChanged = true;
+                } else {
+                    $("a." + $(this).data('ref')).hide();
+                }
+            });
+            return true;
+        });
+        $(".updateQuantityButton").click(function () {
+            if (qtyChanged) {
+                $('form#cartUpdate').submit();
+            }
+        });
+        $("#shoppingChecks").on("click", function () {
+            $.get("/cart/getShoppingChecks", function (data) {
+                $('body').append(data);
+                $('.modal').modal('toggle')
+            });
+        });
+        $("#installmentOptions").on("click", function () {
+            $.get("/cart/installments", function (data) {
+                $('body').append(data);
+                $('.modal').modal('toggle')
+            });
+        });
+    });
+    function use_coupon() {
+        $.ajax({
+            type: "post",
+            url: "/cart/useCoupon",
+            data: {coupon: $('#coupon').val()},
+            success: function (data) {
+                if (!data) {
+                    return alert('Kupon kodu kullanılırken hata oluştu');
+                }
+                if (data.Status && data.Status == 'OK') {
+                    window.location = '/cart';
+                    return true;
+                }
+                alert('Hatalı bir kupon kodu girdiniz');
+            },
+            error: function () {
+                alert('Kupon kodu kullanılırken hata oluştu');
+            }
+        }).done(function () {
+            window.location = '/cart';
+        });
+    }
+    function useShoppingCheck(check) {
+        $.ajax({
+            type: "post",
+            url: "/cart/useShoppingCheck",
+            data: "shopping_check=" + check
+        }).done(function (data) {
+            if (data == "OK") {
+                window.location = '/cart';
+            } else {
+                alert(data);
+            }
+        });
+    }
+</script>

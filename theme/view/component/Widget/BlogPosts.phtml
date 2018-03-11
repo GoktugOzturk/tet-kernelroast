@@ -3,22 +3,28 @@
  * @var string            $title
  * @var blog_post_model[] $blogPosts
  */
+$colCount = floor(12 / count($blogPosts));
 ?>
-<div class="widget widgetBlogPosts">
-    <table class="table table-bordered">
-        <? if (!empty($title)) { ?>
-            <thead>
-            <tr>
-                <th><?= $title ?></th>
-            </tr>
-            </thead>
-        <? } ?>
-        <tbody>
-        <? foreach ($blogPosts as $blogPost) { ?>
-            <tr>
-                <td><a href="<?= link::toBlogPost($blogPost) ?>"><?= $blogPost->post_title ?></a></td>
-            </tr>
-        <? } ?>
-        </tbody>
-    </table>
-</div>
+<section>
+    <h2 class="with-icon blog"><?= $title ?></h2>
+    <div class="blog-posts">
+        <div class="row">
+            <? foreach ($blogPosts as $blogPost) {  ?>
+                <div class="col-xs-<?= $colCount ?>">
+                    <a href="<?= link::toBlogPost($blogPost) ?>" class="blog-post-item">
+                        <div class="blog-post-item-img">
+                            <img src="<?= image::getBlogPostCover($blogPost->blog_post_id) ?>">
+                        </div>
+                        <div class="blog-post-item-content">
+                            <h3><?= $blogPost->post_title ?></h3>
+                            <div class="blog-post-item-text">
+                                <p><?= $blogPost->getContentPreview() ?></p>
+                            </div>
+                            <div class="read-more">READ FULL STORY</div>
+                        </div>
+                    </a>
+                </div>
+            <?  } ?>
+        </div>
+    </div>
+</section>

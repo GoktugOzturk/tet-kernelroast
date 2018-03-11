@@ -1,0 +1,55 @@
+<?
+/**
+ * @var finance_bank_account_model[] $bankAccounts
+ * @var string                       $wireTransferNotes
+ */
+?>
+<div id="WireTransferPayment">
+    <h2>Havale / EFT ile Ödeme</h2>
+    <form id="wireTransferForm" method="post" action="/checkout/paymentSubmit/wireTransfer">
+        <input type="hidden" name="form" value="checkout-wire-transfer"/>
+        <div style="font-size: 16px;">
+            <strong>ALICI ADI:</strong> {SIRKET_UNVANI}
+        </div>
+        <a name="BankAccountList"></a>
+        <div class="table-responsive">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-striped mt" id="bankAccounts">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th class="tabletd" valign="middle" style="width: 200px;"><strong>Banka</strong></th>
+                    <th class="tabletd" valign="middle"><strong>IBAN / Hesap Bilgisi</strong></th>
+                </tr>
+                </thead>
+                <tbody>
+                <? foreach ($bankAccounts as $bankAccount) { ?>
+                    <tr>
+                        <td style="vertical-align: middle">
+                            <input type="radio" style="margin-left: 10px;" value="<?= $bankAccount->bank_account_id ?>" name="bank_account_id"
+                                    id="bc<?= $bankAccount->bank_account_id ?>">
+                        </td>
+                        <td style="vertical-align: middle"><label for="bc<?= $bankAccount->bank_account_id ?>"><img
+                                        src="/img/bank_logo/wire-<?= $bankAccount->bank_id ?>.png"></label></td>
+                        <td>
+                            <label style="font-size: 15px; letter-spacing: 1px;" for="bc<?= $bankAccount->bank_account_id ?>"><?= $bankAccount->formatIban() ?></label>
+                            <label style="font-weight: 400;" for="bc<?= $bankAccount->bank_account_id ?>"><?= $bankAccount->branch_name ?> Şube
+                                kodu: <?= $bankAccount->branch_code ?>,
+                                Hesap No: <?= $bankAccount->account_number ?></label>
+                        </td>
+                    </tr>
+                <? } ?>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="4" height="1" style="padding:0"></td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <? if (!empty($wireTransferNotes)) { ?>
+            <div class="well text" id="moneyTransferInfo">
+                <?= $wireTransferNotes ?>
+            </div>
+        <? } ?>
+    </form>
+</div>

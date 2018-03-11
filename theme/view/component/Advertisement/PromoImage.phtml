@@ -1,0 +1,40 @@
+<?php
+/**
+ * @var advertisement_model $banner
+ * @var array               $classes
+ * @var string              $bannerUrl
+ * @var string              $alternateText
+ * @var bool                $lazyLoad
+ * @var int                 $width
+ * @var int                 $height
+ */
+echo '<div class="promo-img">';
+if (!empty($banner->adv_target)) {
+    echo '<a href="' . $banner->adv_target . '">';
+}
+?>
+    <span class="promo-img-text"><?= $banner->adv_text ?></span>
+    <span class="more-info">MORE INFO</span>
+<?
+$attr = [];
+$attr[] = 'alt="' . $alternateText . '"';
+$classes[] = "img-responsive";
+if ($lazyLoad) {
+    $classes[] = "lazyload";
+    $attr[] = 'data-src="' . $bannerUrl . '"';
+    //$attr[] = 'src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="'; // blank.gif
+    if ($width > 0) {
+        $attr[] = 'width="' . $width . '"';
+    }
+    if ($height > 0) {
+        $attr[] = 'height="' . $height . '"';
+    }
+} else {
+    $attr[] = 'src="' . $bannerUrl . '"';
+}
+echo '<img class="' . implode(' ', $classes) . '" ' . implode(" ", $attr) . '>';
+if (!empty($banner->adv_target)) {
+    echo '</a>';
+}
+echo '</div>';
+

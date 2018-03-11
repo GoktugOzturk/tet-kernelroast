@@ -1,0 +1,28 @@
+<?
+/**
+ * @var ob_order $order
+ * @var array    $orderSummaryOptions
+ */
+?>
+<div class="orderSummaryDetails mb">
+    <h2 class="cartColor">SİPARİŞ ÖZETİNİZ</h2>
+    <div class="orderArea pb5 mb5 clearfix">
+        <div class="col-xs-6 text-right">Sepet Toplamı :</div>
+        <div class="col-xs-6 text-left priceStrong"><?= icms::format_money($order->sale_products) ?></div>
+    </div>
+    <div class="orderArea pb5 mb5 clearfix">
+        <div class="col-xs-6 text-right">Kargo Ücreti :</div>
+        <div class="col-xs-6 text-left priceStrong"><?= ($order->sale_shipping > 0) ? icms::format_money($order->sale_shipping) : 'Ücretsiz' ?></div>
+    </div>
+    <? if ($order->service_cost > 0) { ?>
+        <div class="orderArea pb5 mb5 clearfix">
+            <div class="col-xs-6 text-right">Hizmet Bedeli :</div>
+            <div class="col-xs-6 text-left priceStrong"><?= icms::format_money($order->service_cost) ?></div>
+        </div>
+    <? } ?>
+    <div class="orderArea pb5 mb5 clearfix text-center">
+        <div class="totalPrice"><span>Genel Toplam</span><br> <strong class="totalChargeAmount"><?= icms::format_money($order->sale_total) ?></strong></div>
+    </div>
+</div>
+
+

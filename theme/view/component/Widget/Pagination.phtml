@@ -1,0 +1,64 @@
+<?php
+/**
+ * @var int    $range
+ * @var string $linkTemplate
+ * @var int    $currentPage
+ * @var int    $totalPages
+ * @var bool   $showFirstLast
+ * @var bool   $showPrevNext
+ */
+$range = 4;
+if ($totalPages < $range * 2 + 3) {
+    $start = 1;
+    $end = $totalPages;
+} else {
+    $start = max(1, $currentPage - $range);
+    $end = min($totalPages, $currentPage + $range);
+}
+?>
+<div class="section-pager">
+    <? if ($showPrevNext) { ?>
+        <? if ($currentPage > 1) { ?>
+            <a href="<?= \TeknoETicaret\Widget\Item\Pagination::getPaginationLink($currentPage - 1, $linkTemplate) ?>" class="prev">Previous</a>
+        <? } else { ?>
+            <a href="javascript:" class="prev disabled">Previous</a>
+        <? } ?>
+    <? } ?>
+    <ul>
+        <? if ($start > 1) { ?>
+            <li class="if1"><a href="<?= \TeknoETicaret\Widget\Item\Pagination::getPaginationLink(1, $linkTemplate) ?>"
+                        class="<?= (1 == $currentPage ? 'active' : '') ?>">1</a></li>
+        <? } ?>
+        <? if ($start > 2) { ?>
+            <li class="if1"><a href="<?= \TeknoETicaret\Widget\Item\Pagination::getPaginationLink(2, $linkTemplate) ?>"
+                        class="<?= (2 == $currentPage ? 'active' : '') ?>">2</a></li>
+        <? } ?>
+        <? if ($start > 3) { ?>
+            <li>…………</li>
+        <? } ?>
+        <? if ($start < $end) { ?>
+            <? for ($i = $start; $i <= $end; $i++) { ?>
+                <li class="if2"><a href="<?= \TeknoETicaret\Widget\Item\Pagination::getPaginationLink($i, $linkTemplate) ?>"
+                            class="<?= ($i == $currentPage ? 'active' : '') ?>"><?= $i ?></a></li>
+            <? } ?>
+        <? } ?>
+        <? if ($end < $totalPages - 2) { ?>
+            <li>…………</li>
+        <? } ?>
+        <? if ($end < $totalPages - 1) { ?>
+            <li class="if3"><a href="<?= \TeknoETicaret\Widget\Item\Pagination::getPaginationLink($totalPages - 1, $linkTemplate) ?>"
+                        class="<?= ($totalPages - 1 == $currentPage ? 'active' : '') ?>"><?= $totalPages - 1 ?></a></li>
+        <? } ?>
+        <? if ($end < $totalPages) { ?>
+            <li class="if3"><a href="<?= \TeknoETicaret\Widget\Item\Pagination::getPaginationLink($totalPages, $linkTemplate) ?>"
+                        class="<?= ($totalPages == $currentPage ? 'active' : '') ?>"><?= $totalPages ?></a></li>
+        <? } ?>
+    </ul>
+    <? if ($showPrevNext) { ?>
+        <? if ($currentPage < $totalPages) { ?>
+            <a href="<?= \TeknoETicaret\Widget\Item\Pagination::getPaginationLink($currentPage + 1, $linkTemplate) ?>" class="next">Next</a>
+        <? } else { ?>
+            <a href="javascript:" class="next disabled">Next</a>
+        <? } ?>
+    <? } ?>
+</div>

@@ -1,0 +1,15 @@
+<?php
+/**
+ * @var string $clearAllActiveFiltersLink
+ * @var array  $activeFilters
+ */
+?>
+<div class="filterBlock selectedBlock">
+    <h3>Seçiminiz</h3>
+    <span class="clearFilter"><a href="<?= $clearAllActiveFiltersLink ?>">Temizle</a></span>
+    <ul class="scrollbar">
+        <? foreach ($activeFilters as $activeFilter) { ?>
+            <li><a class="active" href="<?= $activeFilter['clearLink'] ?>"><?= $activeFilter['title'] ?> <span class="remove-icon glyphicon glyphicon-remove"></span></a></li>
+        <? } ?>
+    </ul>
+</div>

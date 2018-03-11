@@ -1,0 +1,28 @@
+<?
+/**
+ * @var string $q
+ * @var string $qs
+ * @var mixed  $utm
+ * @var array  $widgets
+ */
+?>
+<h3 style="font-size: 25px; margin-bottom: 10px; border-bottom: 1px solid #e1e1e1">"<?= $q ?>" ile Eşleşen Sonuç Bulunamadı.</h3>
+<div class="pl pb">
+    <h4>Arama Önerileri:</h4>
+    <ul style="padding-left: 20px">
+        <? if (!empty($spellCheck)) {
+            $fixedQuery = $spellCheck['fixedQuery'];
+            $fixedWords = array_values($spellCheck['words']);
+            $fixedQuery = str_replace('+', ' ', $fixedQuery);
+            $fixedQuery = icms::highlightWords($fixedQuery, $fixedWords);
+            ?>
+            <li><strong><a href="/ara?q=<?= $spellCheck['fixedQuery'] ?>&wq=<?= $qs ?>&<?= http_build_query($utm) ?>"><?= $fixedQuery ?></a></strong> ile eşleşen sonuçları
+                inceleyin
+            </li>
+        <? } ?>
+        <li>İmla hatalarını kontrol edin.</li>
+        <li>Daha genel kelimeler kullanmayı deneyin.</li>
+        <li>Aynı anlama gelen başka kelimeler kullanın.</li>
+        <li>Eğer bir kategoride arama yaptıysanız tüm site genelinde aramayı deneyin.</li>
+    </ul>
+</div>

@@ -70,6 +70,14 @@
         "limit": 1,
         "sort_by": "Order"
       }
+      "CartRight": {
+        "description": "Sepet sayfasında sağda görünen banner",
+        "group": "Cart",
+        "type": "Banner",
+        "width": 272,
+        "limit": 1,
+        "sort_by": "Order"
+      }
     },
     "blockZones": {
       "footer": {

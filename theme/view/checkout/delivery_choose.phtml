@@ -1,0 +1,111 @@
+<?
+/**
+ * @var array                                          $deliveryList
+ * @var array                                          $invoiceList
+ * @var \TeknoETicaret\Shopping\Object\Checkout        $checkout
+ * @var \TeknoETicaret\Shopping\Object\DeliveryAddress $deliveryAddress
+ * @var \TeknoETicaret\Shopping\Object\InvoiceInfo     $invoiceInfo
+ */
+?>
+<form id="addressForm" method="post" action="/checkout/deliveryChooseAddress">
+    <input type="hidden" name="form" value="chooseAddress"/>
+    <input type="hidden" id="memberDeliveryAddressId" name="delivery_address"
+            value="<?= ($deliveryAddress->memberDeliveryAddressId > 0 ? $deliveryAddress->memberDeliveryAddressId : 0) ?>"/>
+    <input type="hidden" id="memberInvoiceInfoId" name="invoice_info" value="<?= ($invoiceInfo->memberInvoiceInfoId > 0 ? $invoiceInfo->memberInvoiceInfoId : 0) ?>"/>
+    <input type="hidden" id="sendInvoiceWithShipment" name="send_invoice_with_shipment" value="<?= $checkout->sendInvoiceWithShipment ? 1 : 0 ?>"/>
+    <input type="hidden" id="deliveryOptionId" name="delivery_option" value="<?= $checkout->deliveryOptionId ?>"/>
+</form>
+<div class="checkoutContent mb">
+    <h2>TESLİMAT VE FATURA BİLGİLERİ</h2>
+    <div>Lütfen siparişinizdeki ürünlerin kargolanacağı teslimat adresini ve düzenlenecek faturalar için kullanılacak fatura bilgilerini seçiniz.</div>
+    <div class="row mt">
+        <div class="col-xs-12 col-sm-6">
+            <h4>Teslimat Adresi</h4>
+            <div class="btn-group" id="deliverySe1ector">
+                <? if (count($deliveryList)) { ?>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?= ($deliveryAddress->memberDeliveryAddressId > 0 ? $deliveryList[$deliveryAddress->memberDeliveryAddressId] : "") ?>
+                    </button>
+                    <ul class="dropdown-menu" style="width:100%">
+                        <? foreach ($deliveryList as $deliveryAddressId => $deliveryItem) { ?>
+                            <li><a onclick="chooseDeliveryAddress(this)" data-id="<?= $deliveryAddressId ?>"><?= $deliveryItem ?></a></li>
+                        <? } ?>
+                        <li role="separator" class="divider"></li>
+                        <li><a class="b" onclick="manageDeliveryAddress('0')"> <i class="glyphicon glyphicon-plus"></i> Yeni Teslimat Adresi Ekle </a></li>
+                    </ul>
+                <? } else { ?>
+                    <button type="button" class="btn btn-default create-record" onclick="manageDeliveryAddress('0')">
+                        <i class="glyphicon glyphicon-plus"></i><br>Yeni Teslimat Adresi Ekle
+                    </button>
+                <? } ?>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <h4>Fatura Bilgileri</h4>
+            <div class="btn-group" id="invoiceSe1ector">
+                <? if (count($invoiceList)) { ?>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?= ($invoiceInfo->memberInvoiceInfoId > 0 ? $invoiceList[$invoiceInfo->memberInvoiceInfoId] : "") ?>
+                    </button>
+                    <ul class="dropdown-menu" style="width:100%">
+                        <? foreach ($invoiceList as $invoiceInfoId => $invoiceItem) { ?>
+                            <li><a onclick="chooseInvoiceInfo(this)" data-id="<?= $invoiceInfoId ?>"><?= $invoiceItem ?></a></li>
+                        <? } ?>
+                        <li role="separator" class="divider"></li>
+                        <li><a class="b" onclick="manageInvoiceInfo('0')"> <i class="glyphicon glyphicon-plus"></i> Yeni Fatura Bilgisi Ekle </a></li>
+                    </ul>
+                <? } else { ?>
+                    <button type="button" class="btn btn-default create-record" onclick="manageInvoiceInfo('0')">
+                        <i class="glyphicon glyphicon-plus"></i><br>Yeni Fatura Bilgisi Ekle
+                    </button>
+                <? } ?>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="checkbox">
+            <label> <input type="checkbox" id="invoiceCheckBox" name="invoice_checkbox" <?= ($checkout->sendInvoiceWithShipment ? 'checked="checked"' : "") ?>>
+                Fatura ürünlerle birlikte gönderilsin</label>
+        </div>
+    </div>
+</div>
+<script>
+    function chooseDeliveryAddress(el) {
+        var $this = $(el);
+        $("#deliverySe1ector").find("button").html($this.html());
+    }
+    function manageDeliveryAddress(addressId) {
+        $.get("/account/manageDeliveryAddress/" + addressId + "/?ajax=1", function (data) {
+            if (typeof data == "string")
+                data = $.parseJSON(data);
+            $('body').append(data.Content);
+            $('#addressModal').modal('toggle');
+        });
+    }
+    function chooseInvoiceInfo(el) {
+        var $this = $(el);
+        $("#invoiceSe1ector").find("button").html($this.html());
+    }
+    function manageInvoiceInfo(addressId) {
+        $.get("/account/manageInvoiceInfo/" + addressId + "/?ajax=1", function (data) {
+            if (typeof data == "string")
+                data = $.parseJSON(data);
+            $('body').append(data.Content);
+            $('#addressModal').modal('toggle');
+        });
+    }
+    $(function () {
+        $("#invoiceCheckBox").on("change", function () {
+            $("#sendInvoiceWithShipment").val(($(this).is(":checked") ? 1 : 0))
+        }).trigger("change");
+        $(document).on("click", ".continueBtn", function () {
+            if ($('#memberDeliveryAddressId').val() * 1 == 0 || $('#memberInvoiceInfoId').val() * 1 == 0) {
+                alert('Lütfen teslimat ve fatura adreslerinizi seçiniz');
+            } else if ($('#deliveryOptionId').val() * 1 == 0) {
+                alert('Lütfen teslimat şeklini seçiniz');
+            } else {
+                $('form#addressForm').submit();
+            }
+        });
+    });
+</script>

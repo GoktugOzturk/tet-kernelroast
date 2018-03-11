@@ -1,0 +1,38 @@
+<?
+/**
+ * @var product_item $product
+ */
+?>
+<a href="<?= $product->obProduct->getUrl() ?>">
+    <div class="product-info">
+        <div class="product-image">
+            <?= $product->obProduct->getPhotoImgTag("catalog") ?>
+        </div>
+        <div class="product-price"><?= icms::format_money($product->obProduct->getSalePrice(), '£') ?></div>
+        <div class="product-title"><?= $product->obProduct->full_name ?></div>
+    </div>
+    <? $rating = $product->obProduct->getRating(); ?>
+    <div class="product-rating">
+        <div class="product-rates" data-rating="<?= $rating->getScore() ?>"></div>
+        <div class="product-comments">(<?= $product->obProduct->getReviewCount() ?>)</div>
+        <a class="add-comment">Write a review</a>
+    </div>
+</a>
+<div class="add-to-basket">
+    <form>
+        <div class="add-to-basket-unit"><span>300 ml</span></div>
+        <label class="add-to-basket-quantity">
+            <select id="product-count-<?= $product->obProduct->product_id ?>">
+                <? for ($i = 1; $i <= min($product->obProduct->saleableProductCount(), 10); $i++) { ?>
+                    <option value="<?= $i ?>"<?= ($i == 1 ? ' selected' : '') ?>><?= $i ?></option>
+                <? } ?>
+            </select>
+        </label>
+        <button type="button"
+                onclick="addToCart('<?= $product->obProduct->product_id ?>', $(this).parent().find('.add-to-basket-quantity select').val(), '')">
+            ADD TO BASKET
+        </button>
+        <a href="javascript:void(0);" class="addToCart" style=""></a>
+    </form>
+</div>
+
