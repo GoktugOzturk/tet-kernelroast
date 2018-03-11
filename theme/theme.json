@@ -1,7 +1,7 @@
 {
   "theme_tag": "kernelroast",
   "theme_name": "Kernel & Roast",
-  "theme_version": "1.0.0",
+  "theme_version": "1.0.1",
   "compatible_with": "1.0.1",
   "config": {
     "skeletonView": {
@@ -69,7 +69,7 @@
         "width": 1140,
         "limit": 1,
         "sort_by": "Order"
-      }
+      },
       "CartRight": {
         "description": "Sepet sayfasında sağda görünen banner",
         "group": "Cart",
