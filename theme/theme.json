@@ -1,11 +1,12 @@
 {
   "theme_tag": "kernelroast",
   "theme_name": "Kernel & Roast",
-  "theme_version": "1.0.1",
+  "theme_version": "1.0.2",
   "compatible_with": "1.0.1",
   "config": {
     "skeletonView": {
       "default": "global",
+      "home": "home",
       "cart": "checkout",
       "checkout": "checkout"
     },
@@ -43,7 +44,7 @@
         "type": "Banner",
         "width": 353,
         "height": 260,
-        "limit": 10,
+        "limit": 2,
         "sort_by": "Order"
       },
       "HomePageSecondBanner": {

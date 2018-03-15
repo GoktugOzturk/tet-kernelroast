@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<?= view::load("head") ?>
+<body class="">
+<?= view::facebook_sdk() ?>
+<div class="wrapper">
+    <?= view::load("header") ?>
+    <?= view::showMessages('class="messageBox container" style="display:none"') ?>
+
+    <? if (view::has_blocks()) { ?>
+        <div class="container">
+            <div class="row">
+                <? view::show_blocks("sidebar col-xs-3") ?>
+                <div class="col-xs-9">
+                    <? view::show_contents() ?>
+                </div>
+            </div>
+        </div>
+    <? } else { ?>
+        <? view::show_contents() ?>
+    <? } ?>
+    <!-- container sonu -->
+    <?= view::load("footer") ?>
+</div>
+</body>
+</html>

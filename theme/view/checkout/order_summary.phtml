@@ -13,105 +13,27 @@
  * @var array                                          $summaryDetails
  */
 ?>
-<div class="orderSummaryDetails mb">
-    <h2 class="cartColor">SİPARİŞ ÖZETİNİZ</h2>
-    <? if ($cart->getShippingCost() < $cart->getBaseShippingCost()) { ?>
-        <div class="orderArea pb5 mb5 row">
-            <div class="col-xs-1"><i class="glyphicon glyphicon-ok-circle"></i></div>
-            <div class="col-xs-11">
-                <strong><?= ($cart->getShippingCost() == 0 ? 'Ücretsiz' : 'İndirimli') ?> kargo</strong> fırsatını yakaladınız.
-            </div>
-        </div>
-    <? } ?>
-    <? foreach ($summaryDetails AS $detail) { ?>
-        <div class="orderArea pb5 mb5 clearfix">
-            <div class="col-xs-6 text-left"><?= $detail['title'] ?> :</div>
-            <div class="col-xs-6 text-right priceStrong"><?= $detail['value'] ?></div>
-        </div>
-    <? } ?>
-    <div class="orderArea pb5 mb5 clearfix text-center">
-        <div class="totalPrice"><span>Ödenecek Tutar</span><br>
-            <strong class="totalChargeAmount"><?= icms::format_money(max($cart->getTotalPrice() - $cart->getMemberBalance(), 0)) ?></strong>
-        </div>
-        <? if ($showAggrements) { ?>
-            <div class="text-left">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="AcceptInfoForm"> <a href="#InfoForm" onclick="showMobileAgreements()" class="b">Ön Bilgilendirme Formunu</a> kabul ediyorum
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="AcceptPurchaseAgreement"> <a href="#PurchaseAgreement" onclick="showMobileAgreements()" class="b">Mesafeli Satış
-                            Sözleşmesini</a> kabul ediyorum
-                    </label>
-                </div>
-            </div>
-        <? } ?>
-        <div class="totalPrice">
-            <a href="javascript:" type="button" class="<?= (!is_null($buttonClass) ? $buttonClass : 'btn buttonCheckout Buy noiseBg continueBtn') ?>">
-                <?= (!is_null($buttonTitle) ? $buttonTitle : 'Satın Al') ?>
-            </a>
-        </div>
-    </div>
-</div>
-<? if ($addressesSet) { ?>
-    <div class="orderCartDetails mb">
-        <h2 class="text-left m0">ADRES BİLGİLERİ
-            <? if ($changeButtons) { ?>
-                <a href="/checkout/delivery" style="margin-top: 3px; font-size: 9px;" class="pull-right btn btn-default btn-xs"><i class="glyphicon glyphicon-pencil"></i> DEĞİŞTİR</a>
+<div class="cart-side-basket">
+    <div class="cart-side-title">SUMMARY</div>
+    <div class="cart-side-basket-content">
+        <div class="cart-side-basket-title">Your Cart</div>
+        <table>
+            <? foreach ($cart->getProducts() as $cartProduct) {
+                $product = $cartProduct->getProduct() ?>
+                <tr>
+                    <td class="product-thumbnail"><img src="<?= $product->getPhoto('thumb') ?>"></td>
+                    <td class="product-info">
+                        <?= $product->full_name ?>
+                        <div class="product-meta">
+                            <div class="product-quantity"><input type="text" value="<?= $cartProduct->getQuantity() ?>"></div>
+                            <div class="product-price">£<?= icms::format_money($cartProduct->getTotalPrice(), null) ?></div>
+                        </div>
+                    </td>
+                </tr>
             <? } ?>
-        </h2>
-        <? if ($deliveryAddress) { ?>
-            <table class="table">
-                <thead>
-                <tr style="background-color: #f9f9f9;">
-                    <th><?= (!$checkout->useSeperateInvoiceAddress ? 'Teslimat ve Fatura Adresi' : 'Teslimat Adresi') ?> </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="selectedAddress"><?= $deliveryAddress->address_text . '<br>' ?>
-                        <?= $deliveryAddress->district_name . " - " . $deliveryAddress->town_name . ' - ' . $deliveryAddress->city_name ?></td>
-                </tr>
-                </tbody>
-            </table>
-        <? } ?>
-        <? if ($invoiceInfo && $checkout->useSeperateInvoiceAddress) { ?>
-            <table class="table">
-                <thead>
-                <tr style="background-color: #f9f9f9;">
-                    <th>Fatura Bilgileri</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="selectedAddress"><?= $invoiceInfo->address_text . '<br>' ?>
-                        <?= $invoiceInfo->district_name . " - " . $invoiceInfo->town_name . ' - ' . $invoiceInfo->city_name ?></td>
-                </tr>
-                </tbody>
-            </table>
-        <? } ?>
-    </div>
-<? } ?>
-<div class="orderCartDetails clearfix mb">
-    <h2 class="text-left m0">SEPETTEKİ ÜRÜNLER
-        <a href="/cart" style="margin-top: 3px; font-size: 9px;" class="pull-right btn btn-default btn-xs"><i class="glyphicon glyphicon-pencil"></i> DEĞİŞTİR</a></h2>
-    <table class="table">
-        <thead>
-        <tr style="background-color: #f9f9f9;">
-            <th>Ürün</th>
-            <th class="text-right">Adet</th>
-        </tr>
-        </thead>
-        <tbody>
-        <? foreach ($cart->getProducts() as $cartProduct) {
-            $product = $cartProduct->getProduct() ?>
-            <tr>
-                <td class="inCartPr"><?= $product->full_name ?></td>
-                <td class="text-right"><?= $cartProduct->getQuantity() ?></td>
+            <tr class="collaterals">
+                <td colspan="2" style="text-align:right;"><span>TOTAL</span>£<?= icms::format_money(max($cart->getTotalPrice() - $cart->getMemberBalance(), 0), null) ?></td>
             </tr>
-        <? } ?>
-        </tbody>
-    </table>
+        </table>
+    </div>
 </div>

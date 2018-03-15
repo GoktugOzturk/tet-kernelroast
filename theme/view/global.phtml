@@ -6,19 +6,20 @@
 <div class="wrapper">
     <?= view::load("header") ?>
     <?= view::showMessages('class="messageBox container" style="display:none"') ?>
-
-    <? if (view::has_blocks()) { ?>
+    <div class="page-content">
         <div class="container">
-            <div class="row">
-                <? view::show_blocks("sidebar col-xs-3") ?>
-                <div class="col-xs-9">
-                    <? view::show_contents() ?>
+            <? if (view::has_blocks()) { ?>
+                <div class="row">
+                    <? view::show_blocks("sidebar col-xs-3") ?>
+                    <div class="col-xs-9">
+                        <? view::show_contents() ?>
+                    </div>
                 </div>
-            </div>
+            <? } else { ?>
+                <? view::show_contents() ?>
+            <? } ?>
         </div>
-    <? } else { ?>
-        <? view::show_contents() ?>
-    <? } ?>
+    </div>
     <!-- container sonu -->
     <?= view::load("footer") ?>
 </div>
